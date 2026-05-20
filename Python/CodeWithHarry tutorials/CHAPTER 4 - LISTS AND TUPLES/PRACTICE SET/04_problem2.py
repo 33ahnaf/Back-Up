@@ -1,0 +1,10 @@
+students_marks = []
+students_marks.append(int(input("Enter 1st student's mark: ")))
+students_marks.append(int(input("Enter 2nd student's mark: ")))
+students_marks.append(int(input("Enter 3rt student's mark: ")))
+students_marks.append(int(input("Enter 4th student's mark: ")))
+students_marks.append(int(input("Enter 5th student's mark: ")))
+students_marks.append(int(input("Enter 6th student's mark: ")))
+print(students_marks)
+students_marks.sort()
+print(students_marks)

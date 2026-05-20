@@ -1,0 +1,10 @@
+import pyttsx3
+engine = pyttsx3.init()
+engine.say("Hello world!")
+engine.runAndWait()
+engine.say("Hello, world!")
+engine.runAndWait()
+engine.say("How are you Ahnaf Shariar?")
+engine.runAndWait()
+engine.say("I'm a python program. Why does Java programmers wear glasses? Because they can't see sharp.")
+engine.runAndWait()
