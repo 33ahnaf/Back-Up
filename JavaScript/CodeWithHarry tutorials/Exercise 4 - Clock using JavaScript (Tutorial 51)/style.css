@@ -1,0 +1,7 @@
+body{
+    background-color: rgb(252, 0, 155); /* this is my 'hotpink' */
+}
+.time{
+    text-align: center;
+    font-size: 50px;
+}
