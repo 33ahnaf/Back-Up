@@ -1,0 +1,3 @@
+----------Employee list----------
+1. Name: Ahnaf_Shariar, Salary: 2000
+2. Name: Muyaz_Al_Mahdi, Salary: 3000

@@ -1,0 +1,9 @@
+#include <stdio.h>
+
+int main(){
+    int weight;
+    scanf("%d", &weight);
+    if(weight % 2 == 0) printf("YES\n");
+    else if(weight % 2 != 0) printf("NO\n");
+    return 0;
+}
