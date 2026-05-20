@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unsaid words</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif, Arial;
+        }
+
+        body {
+            background: linear-gradient(45deg,
+                    #fa5bb2,
+                    #fc778b,
+                    #ff5959,
+                    #ff69b4);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .subtitle {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            top: 40%;
+            font-size: 32px;
+            color: white;
+            opacity: 0;
+            animation: show 4s ease-in-out forwards;
+        }
+
+        /* Animation timing */
+        .line1 {
+            animation-delay: 0s;
+        }
+
+        .line2 {
+            animation-delay: 4s;
+        }
+
+        .line3 {
+            animation-delay: 8s;
+        }
+
+        /* Keyframes */
+        @keyframes show {
+            0%   { opacity: 0; }
+            20%  { opacity: 1; }
+            80%  { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        .words span {
+            opacity: 0;
+            color: white;
+            font-size: 32px;
+            animation: wordFade 1s forwards;
+        }
+
+        @keyframes wordFade {
+            0% { opacity: 0; filter: blur(5px); }
+            100% { opacity: 1; filter: blur(0); }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="subtitle line1">You thought I don't love you?</div>
+    <div class="subtitle line2">Wrong...</div>
+    <div class="subtitle line3">I love you a lot</div>
+    <div class="words">
+        <span style="animation-delay:12s">I</span>
+        <span style="animation-delay:12.5s">love</span>
+        <span style="animation-delay:13s">you</span>
+        <span style="animation-delay:13.5s">a lot</span>
+    </div>
+    <script>
+        // lll
+    </script>
+</body>
+
+</html>
