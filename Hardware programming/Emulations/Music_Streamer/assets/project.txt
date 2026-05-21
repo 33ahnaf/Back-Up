@@ -1,0 +1,285 @@
+Full Name
+	Ahnaf Shariar
+Email Address
+	fjfgjhguwhbxgh@gmail.com
+Phone Number
+	01748653264
+Grade
+	8
+Name of School
+	Bir Uttam Shaheed Samad School & College
+Division
+	Rangpur
+Which year did you participate in the GDT? (If you participated more than once, please select the most recent year)
+	2026
+
+Team Details:
+
+Team Member 1 - Name: Ahnaf Shariar, Grade: 8, School: Bir Uttam Shaheed Samad School & College Rangpur, Email: fjfgjhguwhbxgh@gmail.com, Phone: 01748653264
+
+Team Member 2 - Name: Saad Bin Ashraf, Grade: 8, School: Bir Uttam Shaheed Samad School & College Rangpur, Email: saad.workspace.x2@gmail.com, Phone: 01410568508
+
+Team Member 3 - Name: Rupto Sarker, Grade: 8, School: Bir Uttam Shaheed Samad School & College Rangpur, Email: mdruptos@gmail.com, Phone: 01995111632
+
+Team Member 4 - Name: Raiyatun Nobi Hasin, Grade: 8, School: Bir Uttam Shaheed Samad School & College Rangpur, Email: imnotrite5@gmail.com, Phone: 01729784162
+
+Team Member 5 - Name: Arafath Rahman, Grade: 8, School: Bir Uttam Shaheed Samad School & College Rangpur, Email: arafath5649@gmail.com, Phone: 01837702446
+
+
+Project title / name
+	THE SENTRY OF TEESTA
+Which theme does your project focus on?
+	Conservation stewardship and solutions
+
+
+
+### Describe the environmental issue in your community that you are trying to solve. (150 words maximum)
+(For example: plastic waste in a neighbourhood, inefficient electricity uses in schools, water pollution in a nearby canal, lack of sustainable transport options, etc.)
+
+While Rangpur may not face the world's largest natural disasters, monsoon flooding is an absolute nightmare here. The doer of this disaster is indeed driven by heavy rainfall, but siltation in river is also a big factor. Even a small fluctuation in siltation can cause severe flood in the rural areas next to rivers like the Teesta. The problem is that while some
+monitoring systems exist, they rely on outdated technology and are fundamentally REACTIVE, alerting the community only when the water is already at the door. This leaves farmers and families with zero lead time to protect livestock or evacuate. There is a critical need for a PRIDICTIVE system that can analyze river characterristics such as siltation, flow velocity and rainfall in real-time to provide early warnings, giving time to the locals.
+
+The Teesta River faces significant risk from climate patterns which leads the river to flash floods. Due to this issue farmers lose their crops, families are forced to leave their homes, and people sometimes lose their lives.  In view of the fact that there is no reliable way to know that flood is coming before it is already at the door. The river carries a lot of silt which raises the riverbed and makes flooding worser. The warning technologies that exist are too localized, outdated and come too late for the people. Our aim is to fix that issue by creating a system that gives more likely real, specific, and early enough warning to the people.
+
+
+
+### Apart from your team, who else will be involved in implementing the project?
+(For example: school authorities, teachers, local community members, neighbourhood groups, youth clubs, etc.)
+
+For making it a reality, we'll need more than our own team.
+NEO Alumni, Local people, Teacher and Bangladesh Water Development Board
+
+
+
+### How does your project address the problem? Explain your proposed solution. (150 words maximum)
+(Describe what you plan to do and how it will help solve the problem.)
+
+### How does your project use E-STEM (Environmental Science, Technology, Engineering, and Mathematics) or indigenous/local knowledge to address the problem you mentioned?
+Please explain how scientific ideas, technology, engineering design, data, or local/indigenous practices are used in your proposed solution.
+
+
+### What activities will your project include?
+(Examples: building a prototype, awareness campaigns, installing a small system, testing an idea, data collection, community engagement activities, etc.)
+
+We'll build a prototypes then plant it in the river in a sutable place for testing.
+
+
+### What resources will be required to implement this project apart from funding?
+(Examples: materials, tools, support from teachers/community members, technical guidance, etc.)
+
+
+Estimated timeline of the projec
+	1-3 months
+
+### What positive change do you expect from this project? (100 words maximum)
+(Environmental and or community impact.)
+
+
+
+### How will you know if your project is successful? (100 words maximum)
+(Examples: reduction in waste, number of people engaged, energy saved, awareness created, prototype tested, etc.)
+
+
+### Is this idea completely new, or has something similar been tried before? (If yes, briefly explain.)
+
+
+
+Please mention the total estimated budget and broad categories of expenses. *
+Example:
+
+    Materials – BDT XXXX
+    Awareness campaign materials – BDT XXXX
+    Transport / logistics – BDT XXXX
+    Miscellaneous – BDT XXXX
+
+Total Estimated Budget: BDT XXXX
+
+
+
+Any additional comments or information you would like to share?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Since this is for the National Earth Olympiad (NEO), the judges are looking for a balance of scientific rigor, environmental impact, and technical feasibility.
+
+Regarding your hardware: A Raspberry Pi 4 or 5 is perfect for the master server. It can easily handle the LoRaWAN gateway and run the LSTM inference (the prediction part of the AI). For the sensor nodes, keeping them at ~2000 BDT is great—it proves the project is scalable (you can add more nodes without breaking the bank).
+
+Here are the drafted answers. I have written these to sound professional, scientific, and highly impactful.
+
+Describe the environmental issue in your community that you are trying to solve. (150 words maximum)
+
+The Teesta River basin in Northern Bangladesh, specifically the Rangpur region, suffers from erratic flooding and severe riverbank erosion. A critical but often overlooked factor is siltation—the accumulation of sediment that raises the riverbed, reducing its water-carrying capacity and making flash floods more frequent and unpredictable. Current warning systems are either non-existent or rely on manual observations that are too slow for sudden riparian disasters. This leads to massive crop destruction, loss of livestock, and displacement of marginalized riverside communities. There is an urgent need for a high-precision, real-time monitoring system that can predict overflows by analyzing the synergy between water levels, flow velocity, and sediment density.
+
+Apart from your team, who else will be involved in implementing the project?
+
+To ensure the project's success, we will collaborate with:
+
+Bangladesh Water Development Board (BWDB): For access to historical hydrological data and technical guidance on river behavior.
+
+Local Upazila Parishad & Union Parishad: To coordinate the installation of sensor nodes and manage community alerts.
+
+Local Farmers and Community Leaders: To identify high-risk zones and test the effectiveness of the alert system.
+
+Technical Mentors: Computer Science and Electrical Engineering professors to refine the AI model and IoT circuitry.
+
+How does your project address the problem? Explain your proposed solution. (150 words maximum)
+
+Project TEESTA-SENTRY implements a "Digital Twin" of the river using a three-layer architecture. First, solar-powered IoT Edge-Nodes (equipped with ultrasonic, turbidity, and velocity sensors) are deployed upstream to collect real-time hydrological data. This data is transmitted via LoRaWAN—a long-range, low-power network—to a central Raspberry Pi server. Second, an LSTM (Long Short-Term Memory) Neural Network analyzes this time-series data to predict flood risks based on siltation levels and rainfall patterns. Finally, the system triggers an Omni-channel Alert Protocol, sending automated SMS alerts to farmers and activating village sirens. By moving from reactive monitoring to predictive analysis, TEESTA-SENTRY provides the critical lead time needed to save lives and livelihoods.
+
+How does your project use E-STEM (Environmental Science, Technology, Engineering, and Mathematics) or indigenous/local knowledge to address the problem you mentioned?
+
+Environmental Science: We apply principles of Hydrology to understand how siltation (sediment transport) affects river discharge and flood probability.
+
+Technology: We utilize IoT (Internet of Things) for data acquisition, LoRaWAN for resilient communication in disaster zones, and Deep Learning (LSTM) for predictive modeling.
+
+Engineering: The project involves designing waterproof, solar-powered enclosures for sensors and building a centralized server architecture using a Raspberry Pi.
+
+Mathematics: We use Multivariate Analysis and Time-Series Forecasting to calculate the correlation between turbidity, water velocity, and the likelihood of a breach.
+
+Local Knowledge: We integrate community input on historical "flood marks" and traditional crop cycles to calibrate our alert thresholds.
+
+What activities will your project include?
+
+Prototyping: Designing and building the sensor nodes and the Raspberry Pi master server.
+
+Strategic Mapping: Identifying high-risk "Sentry Points" along the Teesta river for node deployment.
+
+AI Training: Feeding historical river data into the LSTM model to ensure high prediction accuracy.
+
+System Testing: Conducting "dry runs" to ensure LoRaWAN connectivity and SMS alert delivery.
+
+Community Engagement: Hosting workshops for local farmers to explain the warning signals and evacuation routes.
+
+Data Collection: Continuous monitoring to refine the predictive model over time.
+
+What resources will be required to implement this project apart from funding?
+
+Technical Guidance: Mentorship in Python (for AI) and embedded systems (for IoT).
+
+Data Access: Historical water level and rainfall data from the BWDB or meteorological departments.
+
+Infrastructure Access: Permission to install sensor pods on riverbanks and gateways in community centers.
+
+Community Volunteers: Local youth to help with the physical installation and maintenance of the nodes.
+
+What positive change do you expect from this project? (100 words maximum)
+
+We expect a significant reduction in economic loss for Rangpur's farmers by providing a 24–72 hour early warning window, allowing them to harvest crops early or move livestock. Environmentally, the project provides a "Siltation Map," enabling the government to perform targeted dredging rather than wasteful, broad dredging. Most importantly, it will reduce the loss of human life by replacing guesswork with data-driven evacuation triggers, fostering a more climate-resilient community in the face of an erratic Teesta river.
+
+How will you know if your project is successful? (100 words maximum)
+
+Success will be measured by:
+
+Technical Validation: The prototype successfully transmitting data from the river to the server via LoRaWAN.
+
+Predictive Accuracy: The LSTM model achieving a high correlation (low error rate) between predicted and actual water level spikes.
+
+Reach: The number of farmers successfully receiving and acknowledging the SMS alerts during tests.
+
+Response Time: Reducing the time between a "danger signature" detection and the community alert to under 5 minutes.
+
+Is this idea completely new, or has something similar been tried before? (If yes, briefly explain.)
+
+While basic water-level sensors exist, TEESTA-SENTRY is revolutionary because it integrates Siltation (Turbidity) analysis with Deep Learning (LSTM). Most existing systems are "threshold-based" (they alarm when the water is high). Our system is "predictive" (it alarms because the conditions suggest the water will be high). Furthermore, the use of LoRaWAN ensures the system remains operational even when cellular networks fail during storms, a critical flaw in current regional systems.
+
+Budget Estimation (Example - Adjust the BDT based on your actual costs)
+
+Master Server (Raspberry Pi 4/5, SD Card, Power Supply, Case): BDT 12,000
+
+Sensor Nodes (5 nodes 
+×
+×
+ 2,000 BDT): BDT 10,000
+
+LoRaWAN Modules & Gateway Antennas: BDT 6,000
+
+Solar Panels & Waterproof Housing: BDT 4,000
+
+SMS API Gateway/Subscription: BDT 2,000
+
+Transport & Site Logistics: BDT 3,000
+
+Awareness Campaign Materials (Leaflets/Posters): BDT 3,000
+
+Miscellaneous: BDT 2,000
+
+Total Estimated Budget: BDT 42,000
+
+Additional Comments
+
+"Project TEESTA-SENTRY is designed for scalability. While we are starting with a focused cluster of nodes, the architecture allows for the addition of hundreds of sensors across the entire Teesta basin without needing to replace the central server. Our ultimate goal is to provide a blueprint for 'Smart River Management' that can be replicated for other volatile rivers across Bangladesh, such as the Jamuna and Padma."
