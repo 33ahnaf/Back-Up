@@ -1,0 +1,31 @@
+{
+  coord: { lon: 89.25, lat: 25.75 },
+  weather: [
+    {
+      id: 803,
+      main: 'Clouds',
+      description: 'broken clouds',
+      icon: '04d'
+    }
+  ],
+  base: 'stations',
+  main: {
+    temp: 304.05,
+    feels_like: 311.05,
+    temp_min: 304.05,
+    temp_max: 304.05,
+    pressure: 999,
+    humidity: 72,
+    sea_level: 999,
+    grnd_level: 996
+  },
+  visibility: 10000,
+  wind: { speed: 3.98, deg: 115, gust: 6.66 },
+  clouds: { all: 78 },
+  dt: 1750851853,
+  sys: { country: 'BD', sunrise: 1750806794, sunset: 1750856269 },
+  timezone: 21600,
+  id: 1185188,
+  name: 'Rangpur City',
+  cod: 200
+}

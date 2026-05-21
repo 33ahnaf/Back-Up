@@ -1,0 +1,839 @@
+<!-- <!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+
+        body {
+            background: #0f172a;
+            color: rgb(200, 210, 253);
+            font-family: Arial, sans-serif, Helvetica;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            flex-direction: column;
+            /* Required for the splash text */
+        }
+
+        .card {
+            /* background: #fff0d9; */
+            background: #1e293b;
+            padding: 40px;
+            border-radius: 40px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, .4);
+            backdrop-filter: blur(10px);
+        }
+
+        h2 {
+            font-size: 28px;
+            margin-bottom: 25px;
+        }
+
+        .subtitle {
+            color: #4a78b5;
+            margin-bottom: 30px;
+            font-size: 15px;
+        }
+
+        .drop-zone {
+            border: 4px dashed #294f81;
+            background: #121e3a;
+            border-radius: 25px;
+            padding: 50px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .drop-zone:hover,
+        .drop-zone.dragover {
+            background: #142242;
+            transform: scale(1.02);
+            border-style: solid;
+        }
+
+        .drop-zone p {
+            font-weight: bold;
+            margin: 0;
+            pointer-events: none;
+        }
+
+        .drop-zone i {
+            display: block;
+            font-size: 33px;
+            margin-bottom: 10px;
+            color: rgb(81, 193, 201);
+        }
+
+        #file {
+            display: none;
+        }
+
+        button {
+            background: white;
+            color: rgb(34, 197, 94, 0.9);
+            font-weight: bold;
+            border: none;
+            padding: 13px 35px;
+            border: 2px solid rgb(34, 197, 94, 0.9);
+            border-radius: 50px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgb(34, 197, 94, 0.9);
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgb(34, 197, 94);
+            color: white;
+            background: rgb(34, 197, 94);
+        }
+
+        .progress {
+            width: 100%;
+            background: #334155;
+            border-radius: 20px;
+            margin-top: 25px;
+            height: 12px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .bar {
+            height: 100%;
+            width: 0%;
+            background: #22c55e;
+            border-radius: 20px;
+            transition: width 0.3s;
+        }
+
+        #status {
+            font-size: 14px;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .disconnect {
+            margin-top: 20px;
+            background: white;
+            color: #ff2e3f;
+            border: 2px solid #ff2e3f;
+            padding: 10px;
+            font-size: 14px;
+            box-shadow: 0 4px 15px #ff2e3f;
+        }
+
+        .disconnect:hover {
+            background: #ff2e3f;
+            color: white;
+            box-shadow: 0 6px 20px #ff2e3f;
+        }
+
+        .splash-text-area {
+            margin-top: 25px;
+            /* color: #00CAFF; */
+            /* color: #CE85E4; */
+            color: #D4AF37;
+            font-size: 18px;
+            font-style: italic;
+            font-weight: bold;
+            letter-spacing: 1px;
+            opacity: 0;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1.2s ease-out forwards;
+            animation-delay: 3s;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 0.9;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h2>Music Streamer</h2>
+        <p class="subtitle">Upload your audio files here</p>
+
+        <div class="drop-zone" onclick="document.getElementById('file').click()" id="drop-zone">
+            <p id="file-name">Drop <i>.wav</i> or Click to Browse</p>
+            <input type="file" id="file" accept=".wav" onchange="updateFileName()">
+        </div>
+
+        <button onclick="upload()">Upload Now</button>
+
+        <div class="progress" id="progress-container">
+            <div class="bar" id="bar"></div>
+        </div>
+        <p id="status"></p>
+
+        <button class="disconnect" onclick="disconnect()">Disconnect Stream</button>
+    </div>
+    <div class="splash-text-area">
+        <p id="splash-text"></p>
+    </div>
+
+    <script>
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file');
+        const texts = ["Acceptance", "Patience", "Patience"];
+
+        let text = `${texts[Math.floor(Math.random() * texts.length)]} is a great virtue.`;
+        document.getElementById('splash-text').innerHTML = text;
+
+        function updateFileName() {
+            const name = fileInput.files[0] ? fileInput.files[0].name : "Drop your .WAV here or Click";
+            document.getElementById('file-name').innerText = name;
+        }
+
+        ['dragover', 'dragleave', 'drop'].forEach(evt => {
+            dropZone.addEventListener(evt, e => {
+                e.preventDefault();
+                if (evt === 'dragover') dropZone.classList.add('dragover');
+                else dropZone.classList.remove('dragover');
+            });
+        });
+
+        dropZone.addEventListener('drop', e => {
+            fileInput.files = e.dataTransfer.files;
+            updateFileName();
+        });
+
+        function upload() {
+            let file = fileInput.files[0];
+            if (!file) {
+                alert("Please select a file first!");
+                return;
+            }
+
+            document.getElementById("progress-container").style.display = "block";
+            let xhr = new XMLHttpRequest();
+            let formData = new FormData();
+            formData.append("data", file);
+
+            xhr.upload.onprogress = function (e) {
+                if (e.lengthComputable) {
+                    let p = (e.loaded / e.total) * 100;
+                    document.getElementById("bar").style.width = p + "%";
+                    document.getElementById("status").innerText = "Sending magic... " + p.toFixed(1) + "%";
+                }
+            };
+
+            xhr.onload = function () {
+                document.getElementById("status").innerText = "Upload complete!";
+                setTimeout(() => {
+                    document.getElementById("progress-container").style.display = "none";
+                    document.getElementById("bar").style.width = "0%";
+                }, 2000);
+            };
+
+            xhr.open("POST", "/upload", true);
+            xhr.send(formData);
+        }
+
+        function disconnect() {
+            document.getElementById('status').innerText = 'Disconnected';
+            fileInput.value = "";
+            fetch("/disconnect");
+        }
+    </script>
+</body>
+
+</html> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        :root {
+            --body-bg: radial-gradient(circle, #db143f 0%, #941d58 100%);
+            --body-color: #831843;
+            --card-bg: rgba(255, 250, 245, 0.95);
+            --card-bx-shadow: 0 25px 50px rgba(70, 3, 30, 0.4);
+            --subtitle-color: #b54a7a;
+            --drop-zone-border: 4px dashed #ff2e97;
+            --drop-zone-bg: #ffe4f1;
+            --drop-zone-dragover-bg: #ffd1e8;
+            --drop-zone-i-color: #ff2e97;
+            --progress-bg: #c9c2c2;
+            --bar-bg: linear-gradient(90deg, #ff2e97, #ff85c1);
+        }
+
+        :root:has(#theme-toggle:checked) {
+            --body-bg: #0f172a;
+            --body-color: rgb(200, 210, 253);
+            --card-bg: #1e293b;
+            --card-bx-shadow: 0 25px 50px rgba(0, 0, 0, .4);
+            --subtitle-color: #4a78b5;
+            --drop-zone-border: 4px dashed #294f81;
+            --drop-zone-bg: #121e3a;
+            --drop-zone-dragover-bg: #142242;
+            --drop-zone-i-color: rgb(81, 193, 201);
+            --progress-bg: #334155;
+            --bar-bg: #22c55e;
+        }
+
+        body {
+            background: var(--body-bg);
+            color: var(--body-color);
+            font-family: Arial, sans-serif, Helvetica;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            flex-direction: column;
+            transition: background 0.3s ease;
+            /* Required for the splash text */
+        }
+
+        .card {
+            position: relative;
+            /* background: #fff0d9; */
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 40px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: var(--card-bx-shadow);
+            backdrop-filter: blur(10px);
+        }
+
+        h2 {
+            font-size: 28px;
+            margin-bottom: 25px;
+        }
+
+        .subtitle {
+            color: var(--subtitle-color);
+            margin-bottom: 30px;
+            font-size: 15px;
+        }
+
+        .drop-zone {
+            border: var(--drop-zone-border);
+            background: var(--drop-zone-bg);
+            border-radius: 25px;
+            padding: 50px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .drop-zone:hover,
+        .drop-zone.dragover {
+            background: var(--drop-zone-dragover-bg);
+            transform: scale(1.02);
+            border-style: solid;
+        }
+
+        .drop-zone p {
+            font-weight: bold;
+            margin: 0;
+            pointer-events: none;
+        }
+
+        .drop-zone i {
+            display: block;
+            font-size: 33px;
+            margin-bottom: 10px;
+            color: var(--drop-zone-i-color);
+        }
+
+        #file {
+            display: none;
+        }
+
+        button {
+            background: white;
+            color: rgb(34, 197, 94, 0.9);
+            font-weight: bold;
+            border: none;
+            padding: 13px 35px;
+            border: 2px solid rgb(34, 197, 94, 0.9);
+            border-radius: 50px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgb(34, 197, 94, 0.9);
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgb(34, 197, 94);
+            color: white;
+            background: rgb(34, 197, 94);
+        }
+
+        .progress {
+            width: 100%;
+            background: var(--progress-bg);
+            border-radius: 20px;
+            margin-top: 25px;
+            height: 12px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .bar {
+            height: 100%;
+            width: 0%;
+            background: var(--bar-bg);
+            border-radius: 20px;
+            transition: width 0.3s;
+        }
+
+        #status {
+            font-size: 14px;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .disconnect {
+            margin-top: 20px;
+            background: white;
+            color: #ff2e3f;
+            border: 2px solid #ff2e3f;
+            padding: 10px;
+            font-size: 14px;
+            box-shadow: 0 4px 15px #ff2e3f;
+        }
+
+        .disconnect:hover {
+            background: #ff2e3f;
+            color: white;
+            box-shadow: 0 6px 20px #ff2e3f;
+        }
+
+        .splash-text-area {
+            margin-top: 25px;
+            /* color: #00CAFF; */
+            /* color: #CE85E4; */
+            color: #D4AF37;
+            font-size: 18px;
+            font-style: italic;
+            font-weight: bold;
+            letter-spacing: 1px;
+            opacity: 0;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1.2s ease-out forwards;
+            animation-delay: 3s;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 0.9;
+                transform: translateY(0);
+            }
+        }
+
+
+
+        .toggle-container {
+            position: absolute;
+            top: 25px;
+            right: 30px;
+        }
+
+        .switch-label {
+            width: 50px;
+            height: 26px;
+            background-color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            border-radius: 50px;
+            padding: 3px;
+            cursor: pointer;
+            transition: background-color 0.4s;
+            position: relative;
+        }
+
+        .switch-ball {
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.3s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Animation: When checked, turn green and slide ball */
+        :root:has(#theme-toggle:checked) .switch-label {
+            background-color: #22c55e;
+            /* Match your button green */
+        }
+
+        :root:has(#theme-toggle:checked) .switch-ball {
+            transform: translateX(24px);
+        }
+
+        /* Add a smooth fade to everything when switching */
+        body,
+        .card,
+        .drop-zone,
+        .subtitle {
+            transition: all 0.4s ease-in-out;
+        }
+
+
+
+
+
+
+        .toggle-container {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            /* Space between switch and text */
+        }
+
+        /* The Label Text */
+        .toggle-container::after {
+            content: "Dark Mode";
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            /* Use the variable so it changes color automatically */
+            color: var(--subtitle);
+            opacity: 0.8;
+        }
+
+        /* The Switch Track */
+        .switch-label {
+            width: 44px;
+            height: 22px;
+            background-color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            border-radius: 50px;
+            padding: 2px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            order: -1;
+            /* This forces the switch to be on the LEFT of the text */
+        }
+
+        /* The Sliding Ball */
+        .switch-ball {
+            width: 18px;
+            height: 18px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Interaction: Change track color and move ball */
+        :root:has(#theme-toggle:checked) .switch-label {
+            background-color: #22c55e;
+        }
+
+        :root:has(#theme-toggle:checked) .switch-ball {
+            transform: translateX(22px);
+        }
+
+        /* Smooth transition for the whole page */
+        body,
+        .card,
+        .drop-zone,
+        .subtitle,
+        .toggle-container::after {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+
+
+
+
+
+        .toggle-container {
+            position: fixed;
+            /* Sticks to the screen even if you scroll */
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            /* Stays on top of everything */
+            background: rgba(255, 255, 255, 0.2);
+            /* Glass effect background */
+            backdrop-filter: blur(8px);
+            padding: 8px 12px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        /* Update text color based on mode */
+        .toggle-container::after {
+            content: "Dark Mode";
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: white;
+            /* Always white so it's visible on the pink/blue background */
+        }
+
+        /* MOBILE OPTIMIZATION (Portrait Devices) */
+        @media (max-width: 480px) {
+            .toggle-container {
+                top: 15px;
+                right: 15px;
+                padding: 6px 10px;
+            }
+
+            .toggle-container::after {
+                font-size: 10px;
+                /* Slightly smaller text for tiny screens */
+            }
+
+            .switch-label {
+                width: 38px;
+                /* Slightly smaller toggle */
+                height: 20px;
+            }
+
+            .switch-ball {
+                width: 16px;
+                height: 16px;
+            }
+
+            :root:has(#theme-toggle:checked) .switch-ball {
+                transform: translateX(18px);
+                /* Adjust slide distance for smaller toggle */
+            }
+        }
+
+
+
+        /* Fixed to top-right of the screen */
+        .toggle-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1000;
+            /* Glass effect */
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 10px 16px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.4s ease;
+        }
+
+        /* "DARK MODE" Text on the LEFT */
+        .toggle-container::before {
+            content: "DARK MODE";
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            color: white;
+            /* Contrast against the background gradients */
+            opacity: 0.9;
+        }
+
+        /* The Switch Track on the RIGHT */
+        .switch-label {
+            width: 42px;
+            height: 22px;
+            background-color: rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            border-radius: 50px;
+            padding: 2px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        /* The Sliding Ball */
+        .switch-ball {
+            width: 18px;
+            height: 18px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Mode-Specific Changes */
+        :root:has(#theme-toggle:checked) .switch-label {
+            background-color: #22c55e;
+            /* Green for "On" */
+        }
+
+        :root:has(#theme-toggle:checked) .switch-ball {
+            transform: translateX(20px);
+        }
+
+        /* Responsive Mobile Tweak */
+        @media (max-width: 480px) {
+            .toggle-container {
+                top: 15px;
+                right: 15px;
+                padding: 8px 12px;
+            }
+
+            .toggle-container::before {
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="toggle-container">
+        <input type="checkbox" id="theme-toggle" hidden>
+        <label for="theme-toggle" class="switch-label">
+            <span class="switch-ball"></span>
+        </label>
+    </div>
+    <div class="card">
+        <h2>Music Streamer</h2>
+        <p class="subtitle">Upload your audio files here</p>
+
+        <div class="drop-zone" onclick="document.getElementById('file').click()" id="drop-zone">
+            <p id="file-name">Drop <i>.wav</i> or Click to Browse</p>
+            <input type="file" id="file" accept=".wav" onchange="updateFileName()">
+        </div>
+
+        <button onclick="upload()">Upload Now</button>
+
+        <div class="progress" id="progress-container">
+            <div class="bar" id="bar"></div>
+        </div>
+        <p id="status"></p>
+
+        <button class="disconnect" onclick="disconnect()">Disconnect Stream</button>
+    </div>
+    <div class="splash-text-area">
+        <p id="splash-text"></p>
+    </div>
+
+    <script>
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file');
+        const texts = ["Acceptance", "Patience", "Patience"];
+
+        let text = `${texts[Math.floor(Math.random() * texts.length)]} is a great virtue.`;
+        document.getElementById('splash-text').innerHTML = text;
+
+        function updateFileName() {
+            const name = fileInput.files[0] ? fileInput.files[0].name : "Drop your .WAV here or Click";
+            document.getElementById('file-name').innerText = name;
+        }
+
+        ['dragover', 'dragleave', 'drop'].forEach(evt => {
+            dropZone.addEventListener(evt, e => {
+                e.preventDefault();
+                if (evt === 'dragover') dropZone.classList.add('dragover');
+                else dropZone.classList.remove('dragover');
+            });
+        });
+
+        dropZone.addEventListener('drop', e => {
+            fileInput.files = e.dataTransfer.files;
+            updateFileName();
+        });
+
+        function upload() {
+            let file = fileInput.files[0];
+            if (!file) {
+                alert("Please select a file first!");
+                return;
+            }
+
+            document.getElementById("progress-container").style.display = "block";
+            let xhr = new XMLHttpRequest();
+            let formData = new FormData();
+            formData.append("data", file);
+
+            xhr.upload.onprogress = function (e) {
+                if (e.lengthComputable) {
+                    let p = (e.loaded / e.total) * 100;
+                    document.getElementById("bar").style.width = p + "%";
+                    document.getElementById("status").innerText = "Sending magic... " + p.toFixed(1) + "%";
+                }
+            };
+
+            xhr.onload = function () {
+                document.getElementById("status").innerText = "Upload complete!";
+                setTimeout(() => {
+                    document.getElementById("progress-container").style.display = "none";
+                    document.getElementById("bar").style.width = "0%";
+                }, 2000);
+            };
+
+            xhr.open("POST", "/upload", true);
+            xhr.send(formData);
+        }
+
+        function disconnect() {
+            document.getElementById('status').innerText = 'Disconnected';
+            fileInput.value = "";
+            fetch("/disconnect");
+        }
+    </script>
+</body>
+
+</html>

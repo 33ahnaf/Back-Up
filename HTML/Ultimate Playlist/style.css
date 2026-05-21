@@ -1,0 +1,173 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #121212, #1a1a1a);
+    color: #f1f1f1;
+    font-family: "Segoe UI", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+#main-div {
+    text-align: center;
+    padding: 20px;
+    gap: 20px;
+    align-items: start;
+    animation: fadeInUp 0.4s ease-in-out;
+}
+
+.video-card {
+    display: inline-block;
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(6px);
+    margin: 15px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    cursor: pointer;
+    width: 280px;
+    transform: translateY(0);
+    transition:
+        transform 260ms cubic-bezier(.2,.9,.2,1),
+        box-shadow 260ms ease,
+        border-color 260ms ease;
+}
+
+.video-card[data-hidden="true"] {
+    opacity: 0;
+    transform: translateY(8px);
+}
+
+.video-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.35);
+    border-color: rgba(255,255,255,0.12);
+}
+
+img {
+    width: 100%;
+    display: block;
+    height: 160px;
+}
+
+.title {
+    text-align: center;
+    padding: 12px;
+    font-size: 1em;
+    font-weight: bold;
+    background-color: hsl(0, 0%, 13%);
+}
+
+#only-one {
+    display: inline-block;
+    margin: 20px auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    overflow: hidden;
+    width: 90%;
+    max-width: 800px;
+    background: rgba(255, 255, 255, 0.05);
+    animation: fadeInUp 0.4s ease-in-out;
+}
+
+#only-one video {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.btn-bar {
+    margin: 20px auto;
+    text-align: center;
+}
+
+.action-btn {
+    margin: 0 6px;
+    background: transparent;
+    color: #7c3aed;
+    border: 1px solid rgba(124,58,237,0.12);
+    padding: 9px 18px;
+    border-radius: 999px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: transform 160ms ease, background 160ms ease, color 160ms ease;
+}
+
+.action-btn:hover {
+    transform: translateY(-3px);
+    background: rgba(124,58,237,0.06);
+    color: #06b6d4;
+}
+
+footer {
+    background: rgba(0,0,0,0.6);
+    padding: 10px;
+    font-size: 0.85em;
+    color: #aaaaaa;
+    border-top: 1px solid #333;
+    text-align: center;
+}
+
+/* Smooth entrance animations */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+
+/* Lyrics modal */
+#lyrics-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.9;
+    z-index: 33;
+}
+
+#lyrics-card {
+    background: rgba(20, 20, 20, 0.95);
+    border-radius: 16px;
+    padding: 20px;
+    max-width: 650px;
+    width: 90%;
+    max-height: 80%;
+    overflow-y: auto;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+    text-align: center;
+}
+
+#lyrics p {
+    margin: 6px 0;
+    opacity: .55;
+    transition: opacity .2s, transform .2s;
+}
+
+#lyrics p.active {
+    opacity: 1;
+    font-weight: 600;
+    color: #4f46e5;
+    transform: scale(1.05);
+}
+
+#close-lyrics {
+    margin-top: 12px;
+    background: transparent;
+    color: #f87171;
+    border: 1px solid rgba(248, 113, 113, 0.3);
+    padding: 6px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+}
+
+#lyrics-title{
+    margin-bottom: 12px;
+    text-align: center;
+    color: hsl(0, 0%, 80%);
+}

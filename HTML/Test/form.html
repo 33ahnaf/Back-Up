@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>From</title>
+</head>
+<body>
+    <div>
+        <h1>Students Name and Roll</h1>
+        <form action="name_roll.php">
+            <input type="text" placeholder="Enter your name"><br>
+            <input type="text" placeholder="Enter your roll">
+        </form>
+        <form action="section.php">
+            <label for="sectionida">
+                <input type="radio" value="section a" name="section" id="sectionida">Section A<br>
+            </label>
+            <label for="sectionidb">
+                <input type="radio" value="section b" name="section" id="sectionidb">Section B<br>
+            </label>
+            <label for="sectionidc">
+                <input type="radio" value="section c" name="section" id="sectionidc">Section C<br>
+            </label>
+            <label for="canteencard">
+                <input type="checkbox" name="canteencard" id="canteencard">Want canteen card<br><!--We can write label like this.--> 
+            </label>
+            <input type="checkbox" id="createshortcuit" value="Create a desktop shortcuit" name="Create a desktop shortcuit">
+            <label for="createshortcut">Create a desktop shortcut</label><br><!--We can also write label like this(This method is better)-->
+            <textarea name="text" id="text" cols="20" rows="10" placeholder="Give us your feedback"></textarea><br>
+            <select name="cars" id="cars">
+                <option value="no_car">Select car brand</option>
+                <option value="BMW">BMW</option>
+                <option value="Mercedes">Mercedes</option>
+                <option value="Koenigsegg">Koenigsegg</option>
+                <option value="Lamborghini">Lamborghini</option>
+            </select>
+        </form>
+    </div>
+</body>
+</html>

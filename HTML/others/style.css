@@ -1,0 +1,40 @@
+body{
+    margin: 0;
+    padding: 0;
+    height: 1500px;
+    background-color: aqua;
+    background-image: url('2024-nissan-gt-r-119-1673621285.jpg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    background-attachment: fixed;
+    /* background: aqua url('2024-nissan-gt-r-119-1673621285.jpg') no-repeat fixed center; */
+}
+#FullName{
+    background-color: gold;
+    color: red;
+    border: 5px solid black;
+    width: 300px;
+}
+#NickName{
+    background-color: palegreen;
+    color: blue;
+    border: 1px solid black;
+    width: 300px;
+}
+.Friends, h4{
+    background-color: silver;
+    color: #a300ff;
+    border: 2px solid black;
+    width: 300px;
+}
+.bangla{
+    background-color: red;
+    color: green;
+    height: 30px;
+}
+.desh{
+    background-color: green;
+    color: red;
+    height: 30px;
+}

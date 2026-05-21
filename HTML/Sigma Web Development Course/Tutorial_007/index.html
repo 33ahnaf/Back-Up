@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forms - Let's learn it</title>
+</head>
+<body>
+    <h1>Student database</h1>
+    <form action="post">
+        <div>
+            <label for="username">Enter your username</label>
+            <input type="text" id="username" name="username" placeholder="Enter your name">
+        </div>
+        <div>
+            <input type="radio" name="gender" id="male" value="male">
+            <label for="male">Male</label>
+            <input type="radio" name="gender" id="female" value="female">
+            <label for="female">Female</label>
+        </div>
+        <div>
+            <input type="checkbox" id="does-like" name="does-like" value="yes">
+            <label for="does-like">Do you like strawberry</label>
+        </div>
+        <div>
+            <label for="comment">Enter your comment here.</label>
+            <textarea name="comment" id="comment" rows="4" cols="33"></textarea>
+        </div>
+    </form>
+</body>
+</html>

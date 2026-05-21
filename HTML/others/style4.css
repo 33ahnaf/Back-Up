@@ -1,0 +1,51 @@
+/*text-decoration can have style, color etc.
+  like wave, red, dotted etc.*/
+.box1{
+    width: 400px;
+    height: 500px;
+    background-color: red;
+    display: inline-block;
+    text-align: left;
+    text-decoration: overline;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.box2{
+    width: 400px;
+    height: 500px;
+    background-color: green;
+    display: inline-block;
+    text-align: center;
+    text-decoration: underline overline;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.box3{
+    width: 400px;
+    height: 500px;
+    background-color: blue;
+    display: inline-block;
+    text-align: right;
+    text-decoration: underline;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.capitalize{
+    width: 400px;
+    height: 500px;
+    background-color: yellow;
+    display: inline-block;
+    text-align: center;
+    text-transform: capitalize;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.text{
+    width: 800px;
+    height: 500px;
+    background-color: magenta;
+    display: inline-block;
+    padding: 20px;
+    box-sizing: border-box;
+    line-height: 40px;
+}

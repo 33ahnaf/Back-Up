@@ -1,0 +1,12 @@
+.font1{
+    background-color: yellow;
+    width: 800px;
+    height: 400px;
+    padding: 20px;
+    margin: 20px;
+    line-height: 45px;
+    /* font-size: 30px; */
+    font-size: x-large;
+    /* font-family: 'ubuntu', 'Courier New', Courier, monospace; */
+    font-family: "Nerko One", cursive;
+}
