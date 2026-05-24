@@ -10,7 +10,7 @@
  * - Hold D7 3 s → WiFi AP, list/download PDFs, GET /stop to exit
  *
  * SD (Sense expansion): CS=21, SCK=7, MISO=8, MOSI=9
- */
+*/
 
 #include <Arduino.h>
 #include "esp_camera.h"
@@ -25,8 +25,8 @@
 #include <algorithm>
 
 // ─── Pins (XIAO ESP32-S3 Sense) ───────────────────────────────────────────
-#define BUTTON_PIN   D6 // D7 — RTC wake + 3 s hold for WiFi
-#define PRESSURE_PIN D7 // A1 / D1 — analog foil sensor (NOT D7)
+#define BUTTON_PIN   D6 // D6 — RTC wake + 3 s hold for WiFi
+// #define PRESSURE_PIN D8 // D8 — foil paper as touch pad
 
 #define SD_CS_PIN 21
 #define SD_SCK_PIN 7
@@ -66,8 +66,7 @@
 #define PCLK_GPIO_NUM 13
 
 // ─── State ────────────────────────────────────────────────────────────────
-enum AppState
-{
+enum AppState {
     STATE_ACTIVE,
     STATE_BURST_DONE,
     STATE_WIFI
@@ -350,11 +349,12 @@ bool initCamera(){
 }
 
 bool isWriting(){
-    static bool active = false;
-    int v = !digitalRead(PRESSURE_PIN);
-    if (!active && v == 1)
-        active = true;
-    return active;
+    // static bool active = false;
+    // int v = touchRead(PRESSURE_PIN) > 30000;
+    // if(!active && v == 1)
+    //     active = true;
+    // return active;
+    return 1;
 }
 
 bool captureJpegFrame(){
@@ -393,7 +393,7 @@ void runBurst(){
     burstDoneAtMs = millis();
 }
 
-void endSessionAndSleep(){
+void endSessionAndSleep(int wannaSleep){
     char pdfPath[64];
     if(frameCounter > 0){
         if(mergeSessionToPdf(pdfPath, sizeof(pdfPath)))
@@ -402,7 +402,8 @@ void endSessionAndSleep(){
             Serial.println("[PDF] Merge failed — JPEGs kept in /sess");
     }else
         Serial.println("[PWR] No frames, sleep without PDF");
-    enterDeepSleep();
+    if(wannaSleep)
+        enterDeepSleep();
 }
 
 void enterDeepSleep(){
@@ -417,6 +418,7 @@ void enterDeepSleep(){
 }
 
 void startWiFiPortal(){
+    endSessionAndSleep(0);
     stopWifiRequested = false;
     WiFi.mode(WIFI_AP);
     WiFi.softAP(AP_SSID, AP_PASS);
@@ -486,12 +488,11 @@ Stop WiFi</button></body></html>)raw";
 
 // ═══════════════════════════════════════════════════════════════════════════
 void setup(){
+    delay(3000);
     Serial.begin(115200);
-    delay(5000);
     Serial.println("\n=== Smart Pen (XIAO ESP32-S3 Sense) ===");
 
     pinMode(BUTTON_PIN, INPUT_PULLUP);
-    pinMode(PRESSURE_PIN, INPUT_PULLUP);
 
     if(!initSD())
         while(true)
@@ -561,7 +562,7 @@ void loop(){
 
     // ── Still idle after burst → merge PDF + sleep ──────────────────────────
     if(now - burstDoneAtMs >= POST_BURST_SLEEP_MS){
-        endSessionAndSleep();
+        endSessionAndSleep(1);
     }
 
     delay(20);
