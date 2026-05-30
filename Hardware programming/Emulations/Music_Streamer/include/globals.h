@@ -17,7 +17,11 @@ typedef struct {
     bool isPlaying = false;
 } AppState;
 
+
 extern AppState app;
+
+extern std::string MUSICS_DIRECTORY;
+extern std::string LYRICS_DIRECTORY;
 
 extern float bassGain;
 extern float midGain;
@@ -29,7 +33,5 @@ extern float reverbFeedback;
 extern float junoRate;
 extern float junoDepth;
 extern float junoMix;
-
-int constrain(int amt, int low, int high);
 
 #endif

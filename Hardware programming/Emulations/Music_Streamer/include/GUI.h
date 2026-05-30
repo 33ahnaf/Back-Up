@@ -5,12 +5,6 @@
 #include <vector>
 #include <raylib.h>
 
-#define LCD_WIDTH 320
-#define LCD_HEIGHT 240
-#define LCD_TARGET_FPS 20
-#define VISIBLE_ITEMS 12
-#define MAX_VISIBLE_ITEM_LENGTH 50
-
 typedef struct MenuItem {
     const char *name;
 
@@ -37,10 +31,10 @@ typedef struct {
     MenuState parentStack[10];
     int parentIndex;
 
-    void Enter(void);
-    void Back(void);
+    void Enter      (void);
+    void Back       (void);
     void HandleInput(void);
-    void DrawMenu(void);
+    void DrawMenu   (void);
 } UIState;
 
 typedef struct {
@@ -49,13 +43,13 @@ typedef struct {
     int selected = 0;
     int scroll = 0;
 
-    void LoadSongs(const std::string path);
+    void LoadSongs  (const std::string path);
     void HandleInput(void);
-    void DrawSongs(void);
+    void DrawSongs  (void);
 } SongBrowser;
 
-void GRAPHICS_INIT(void);
-void GRAPHICS_END(void);
+void RAYLIB_INIT(void);
+void RAYLIB_END(void);
 void UpdateGUI(void);
 void OpenSongs(void);
 

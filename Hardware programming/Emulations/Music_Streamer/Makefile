@@ -10,7 +10,7 @@ SRCS := $(wildcard src/*.cpp)
 OBJS := $(SRCS:src/%.cpp=bin/%.o)
 
 all: bin/app
-		./bin/app
+	./bin/app
 
 # Link app
 bin/app: $(OBJS)
@@ -25,3 +25,6 @@ bin:
 
 clean:
 	rm -rf bin
+
+# run:
+# 	./bin/app

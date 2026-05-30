@@ -14,7 +14,7 @@ void AudioFile::init(void){
             fseek(stream, i+4, SEEK_SET);
             fread((uint8_t*)&data_size, 1, 4, stream);
             header_size = file_size - data_size;
-	    break;
+	        break;
         }
     }
     fseek(stream, 0, SEEK_SET);

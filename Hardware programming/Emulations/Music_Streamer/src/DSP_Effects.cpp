@@ -1,9 +1,14 @@
 #include "DSP_Effects.h"
 #include "globals.h"
+#include "MISC.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+
+#define REVERB_DELAY 250 // 250ms
+#define JUNO_DELAY 50 // 50ms
+#define MODULE_NAME "DSP_Effects"
 
 // optimal DO NOT TOUCH
 float lowCut = 0.01;
@@ -44,15 +49,15 @@ void JunoState::applyJuno(float *sample){
         writePos = 0;
     phase1 += junoRate * 0.001f;
     phase2 += junoRate * 0.001f * 0.7f;
-    if(phase1 > 6.283185f)   phase1 -= 6.283185f;
-    if(phase2 > 6.283185f)   phase2 -= 6.283185f;
+    if(phase1 > 6.283185f) phase1 -= 6.283185f;
+    if(phase2 > 6.283185f) phase2 -= 6.283185f;
 }
 
 void ReverbState::allocate(uint32_t sample_rate){
     size = (REVERB_DELAY / 1000.0f) * sample_rate;
     buffer = (float*)malloc(size * sizeof(float));
     if(!buffer){
-        printf("FATAL: malloc() failed!\n");
+        printf("Error: ReverbState malloc() failed! [%s]\n", MODULE_NAME);
         while(1);
     }
     memset(buffer, 0, size * sizeof(float));
@@ -68,7 +73,7 @@ void JunoState::allocate(uint32_t sample_rate){
     size = (JUNO_DELAY / 1000.0f) * sample_rate;
     buffer = (float*)malloc(size * sizeof(float));
     if(!buffer){
-        printf("FATAL: malloc() failed!\n");
+        printf("Error: JunoState malloc() failed! [%s]\n", MODULE_NAME);
         while(1);
     }
     memset(buffer, 0, size * sizeof(float));

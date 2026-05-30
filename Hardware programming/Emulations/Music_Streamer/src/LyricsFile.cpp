@@ -1,13 +1,15 @@
 #include "LyricsFile.h"
 #include "globals.h"
 
-uint32_t parseTimeToMS(string timeTag){
+#define MODULE_NAME "LyricsFile"
+
+uint32_t parseTimeToMS(std::string timeTag){
     int min = std::stoi(timeTag.substr(0, 2));
     int sec = std::stoi(timeTag.substr(3, 5));
     int frac = 0;
 
     if(timeTag.length() > 6){
-        string f = timeTag.substr(6);
+        std::string f = timeTag.substr(6);
         if(f.length() == 2) frac = std::stoi(f) * 10;
         else frac = std::stoi(f);
     }
@@ -15,11 +17,11 @@ uint32_t parseTimeToMS(string timeTag){
     return min * 60000 + sec * 1000 + frac;
 }
 
-bool LyricsFile::load(string path){
+bool LyricsFile::load(std::string path){
     stream = fopen(path.c_str(), "r");
     if(!stream){
-        printf("Cannot open the file containing lyrics!\n");
-        return 0;
+        printf("Error: Cannot open the file containing lyrics! [%s]\n", MODULE_NAME);
+        return false;
     }
 
     lines.clear();
@@ -28,14 +30,14 @@ bool LyricsFile::load(string path){
     char buffer[256];
 
     while(fgets(buffer, sizeof(buffer), stream)){
-        string line = buffer;
+        std::string line = buffer;
         if(line[0] != '[')              continue;
         int closeIdx = line.find(']');
-        if(closeIdx == (int)string::npos)    continue;
-        string timeTag = line.substr(1, closeIdx - 1);
+        if(closeIdx == (int)std::string::npos)    continue;
+        std::string timeTag = line.substr(1, closeIdx - 1);
         if(timeTag[0] < '0' || timeTag[0] > '9')
             continue;
-        string text = line.substr(closeIdx + 1);
+        std::string text = line.substr(closeIdx + 1);
 
         LyricsLine l;
         l.time_ms = parseTimeToMS(timeTag);
@@ -43,7 +45,7 @@ bool LyricsFile::load(string path){
         lines.push_back(l);
     }
     fclose(stream);
-    return 1;
+    return true;
 }
 
 void LyricsFile::unload(void){

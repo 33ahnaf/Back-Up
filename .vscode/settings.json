@@ -2,5 +2,6 @@
     "files.associations": {
         "raylib.h": "c"
     },
-    "livePreview.defaultPreviewPath": "/HTML/Music Streamer Uploading Website Themes/HotPink.html"
+    "livePreview.defaultPreviewPath": "/HTML/Music Streamer Uploading Website Themes/HotPink.html",
+    "C_Cpp.default.compilerPath": "/usr/bin/g++"
 }

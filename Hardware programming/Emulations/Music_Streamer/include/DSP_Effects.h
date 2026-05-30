@@ -3,9 +3,6 @@
 
 #include <stdint.h>
 
-#define REVERB_DELAY 250 // 250ms
-#define JUNO_DELAY 50 // 50ms
-
 typedef struct {
     float *buffer;
     int writePos;

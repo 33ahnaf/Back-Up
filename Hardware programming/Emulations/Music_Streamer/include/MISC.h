@@ -3,6 +3,7 @@
 
 #include "AudioFile.h"
 
+int constrain(int amt, int low, int high);
 void showINFO(void);
 void i2s_attach(uint32_t buffer_size, uint32_t sample_rate);
 void i2s_detach(void);

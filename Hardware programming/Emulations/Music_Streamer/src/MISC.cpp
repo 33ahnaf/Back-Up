@@ -1,6 +1,12 @@
 #include "MISC.h"
 #include "globals.h"
 
+int constrain(int amt, int low, int high){
+    if(amt > high) return high;
+    if(amt < low) return low;
+    return amt;
+}
+
 void showINFO(void){
     // printf("bass: %1.1f  mid: %1.1f  tre: %1.1f     lowCut: %1.3f  highCut: %1.3f     reverbMix: %1.2f  reverbFeedback: %1.2f\n", bassGain, midGain, treGain, lowCut, highCut, reverbMix, reverbFeedback);
     printf("\nbass: %1.1f  mid: %1.1f  tre: %1.1f     junoRate: %1.2f  junoDepth: %4.1f  junoMix: %1.2f     reverbMix: %1.2f  reverbFB: %1.2f\n", bassGain, midGain, treGain, junoRate, junoDepth, junoMix, reverbMix, reverbFeedback);

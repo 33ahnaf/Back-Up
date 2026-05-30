@@ -5,6 +5,13 @@
 #include <dirent.h>
 #include <string.h>
 
+#define LCD_WIDTH 320
+#define LCD_HEIGHT 240
+#define LCD_TARGET_FPS 20
+#define VISIBLE_ITEMS 12
+#define MAX_VISIBLE_ITEM_LENGTH 50
+#define MODULE_NAME "GUI"
+
 char visible[VISIBLE_ITEMS][MAX_VISIBLE_ITEM_LENGTH];
 Font font;
 
@@ -30,15 +37,15 @@ UIState ui = {
 
 SongBrowser songBrowser;
 
-void GRAPHICS_INIT(void){
+void RAYLIB_INIT(void){
     InitWindow(LCD_WIDTH, LCD_HEIGHT, "TFT Display (emulation)");
-    SetTargetFPS(LCD_TARGET_FPS);
+    // SetTargetFPS(LCD_TARGET_FPS);
+    font = LoadFontEx("./assets/Fonts/NotoSans-Medium.ttf", 16, 0, 0);
     SetTextureFilter(font.texture, TEXTURE_FILTER_POINT);
     SetTextureFilter(font.texture, TEXTURE_FILTER_BILINEAR);
-    font = LoadFontEx("./assets/Fonts/NotoSans-Medium.ttf", 16, 0, 0);
 }
 
-void GRAPHICS_END(void){
+void RAYLIB_END(void){
     UnloadFont(font);
     CloseWindow();
 }
@@ -86,10 +93,10 @@ void UIState::DrawMenu(void){
 
         if(idx == selected){
             DrawRectangle(0, y - 2, LCD_WIDTH, 20, DARKGRAY);
-            DrawTextEx(font, ">", (Vector2){2, y}, 16, 1, YELLOW);
-            DrawTextEx(font, currentMenu[idx].name, (Vector2){11, y}, 16, 0.5, YELLOW);
+            DrawTextEx(font, ">", (Vector2){2.0, (float)y}, 16, 1, YELLOW);
+            DrawTextEx(font, currentMenu[idx].name, (Vector2){11.0, (float)y}, 16, 0.5, YELLOW);
         }else{
-            DrawTextEx(font, currentMenu[idx].name, (Vector2){11, y}, 16, 0.5, GREEN);
+            DrawTextEx(font, currentMenu[idx].name, (Vector2){11.0, (float)y}, 16, 0.5, GREEN);
         }
     }
 
@@ -120,7 +127,7 @@ void UIState::HandleInput(void){
 }
 
 void OpenSongs(void){
-    songBrowser.LoadSongs("./assets/Musics");
+    songBrowser.LoadSongs(MUSICS_DIRECTORY);
     app.currentScreen = SCREEN_SONG_BROWSER;
 }
 
@@ -130,7 +137,7 @@ void SongBrowser::LoadSongs(const std::string path){
     struct dirent *entry;
     DIR *dir = opendir(path.c_str());
     if(dir == NULL){
-        printf("Could not open directory!");
+        printf("Error: Could not open musics directory! [%s]\n", MODULE_NAME);
         while(1);
     }
 
@@ -146,7 +153,7 @@ void SongBrowser::LoadSongs(const std::string path){
 void SongBrowser::HandleInput(void){
     if(IsKeyPressed(KEY_DOWN)){
         selected++;
-        if(selected >= songs.size())
+        if(selected >= (int)songs.size())
             selected = songs.size() - 1;
     }
 
@@ -168,8 +175,9 @@ void SongBrowser::HandleInput(void){
         app.isPlaying = true;
     }
 
-    if(IsKeyPressed(KEY_BACKSPACE))
+    if(IsKeyPressed(KEY_BACKSPACE)){
         app.currentScreen = SCREEN_MENU;
+    }
 }
 
 void SongBrowser::DrawSongs(void){
@@ -178,7 +186,7 @@ void SongBrowser::DrawSongs(void){
 
     for(int i = 0; i < VISIBLE_ITEMS; i++){
         int idx = i + scroll;
-        if(idx >= songs.size()) break;
+        if(idx >= (int)songs.size()) break;
         
         int y = i * 20;
 
@@ -210,8 +218,10 @@ void UpdateGUI(void){
             ClearBackground(BLACK);
             DrawTextEx(font, "NOW PLAYING", {10, 20}, 20, 1, SKYBLUE);
             DrawTextEx(font, app.selectedSong.c_str(), {10, 60}, 16, 1, GREEN);
-            if(IsKeyPressed(KEY_BACKSPACE))
+            if(IsKeyPressed(KEY_BACKSPACE)){
                 app.currentScreen = SCREEN_SONG_BROWSER;
+                app.isPlaying = false;
+            }
             EndDrawing();
             break;
     }
