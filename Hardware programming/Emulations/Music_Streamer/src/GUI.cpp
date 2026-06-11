@@ -43,6 +43,7 @@ void RAYLIB_INIT(void){
     font = LoadFontEx("./assets/Fonts/NotoSans-Medium.ttf", 16, 0, 0);
     SetTextureFilter(font.texture, TEXTURE_FILTER_POINT);
     SetTextureFilter(font.texture, TEXTURE_FILTER_BILINEAR);
+    DrawFPS(0, 0);
 }
 
 void RAYLIB_END(void){
