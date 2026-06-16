@@ -12,21 +12,21 @@
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug",
-            "executable": "/home/ahnaf/CODER'S PARADISE/Hardware programming/ESP32S3_CAM/lab/.pio/build/xiao_esp32s3/firmware.elf",
-            "projectEnvName": "xiao_esp32s3",
+            "executable": "/home/ahnaf/CODER'S PARADISE/Hardware programming/ESP32S3_CAM/lab/.pio/build/sdCard_limit/firmware.elf",
+            "projectEnvName": "sdCard_limit",
             "toolchainBinDir": "/home/ahnaf/.platformio/packages/toolchain-xtensa-esp32s3/bin",
             "internalConsoleOptions": "openOnSessionStart",
             "preLaunchTask": {
                 "type": "PlatformIO",
-                "task": "Pre-Debug"
+                "task": "Pre-Debug (sdCard_limit)"
             }
         },
         {
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug (skip Pre-Debug)",
-            "executable": "/home/ahnaf/CODER'S PARADISE/Hardware programming/ESP32S3_CAM/lab/.pio/build/xiao_esp32s3/firmware.elf",
-            "projectEnvName": "xiao_esp32s3",
+            "executable": "/home/ahnaf/CODER'S PARADISE/Hardware programming/ESP32S3_CAM/lab/.pio/build/sdCard_limit/firmware.elf",
+            "projectEnvName": "sdCard_limit",
             "toolchainBinDir": "/home/ahnaf/.platformio/packages/toolchain-xtensa-esp32s3/bin",
             "internalConsoleOptions": "openOnSessionStart"
         },
@@ -34,8 +34,8 @@
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug (without uploading)",
-            "executable": "/home/ahnaf/CODER'S PARADISE/Hardware programming/ESP32S3_CAM/lab/.pio/build/xiao_esp32s3/firmware.elf",
-            "projectEnvName": "xiao_esp32s3",
+            "executable": "/home/ahnaf/CODER'S PARADISE/Hardware programming/ESP32S3_CAM/lab/.pio/build/sdCard_limit/firmware.elf",
+            "projectEnvName": "sdCard_limit",
             "toolchainBinDir": "/home/ahnaf/.platformio/packages/toolchain-xtensa-esp32s3/bin",
             "internalConsoleOptions": "openOnSessionStart",
             "loadMode": "manual"

@@ -7,7 +7,7 @@
 
 #define LCD_WIDTH 320
 #define LCD_HEIGHT 240
-#define LCD_TARGET_FPS 20
+#define LCD_FPS 20
 #define VISIBLE_ITEMS 12
 #define MAX_VISIBLE_ITEM_LENGTH 50
 #define MODULE_NAME "GUI"
@@ -39,11 +39,10 @@ SongBrowser songBrowser;
 
 void RAYLIB_INIT(void){
     InitWindow(LCD_WIDTH, LCD_HEIGHT, "TFT Display (emulation)");
-    // SetTargetFPS(LCD_TARGET_FPS);
+    SetTargetFPS(LCD_FPS);
     font = LoadFontEx("./assets/Fonts/NotoSans-Medium.ttf", 16, 0, 0);
     SetTextureFilter(font.texture, TEXTURE_FILTER_POINT);
     SetTextureFilter(font.texture, TEXTURE_FILTER_BILINEAR);
-    DrawFPS(0, 0);
 }
 
 void RAYLIB_END(void){
