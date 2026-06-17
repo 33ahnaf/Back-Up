@@ -1,8 +1,8 @@
-#ifndef _AUDIOSTREAMER_DEPRECATED__H
-#define _AUDIOSTREAMER_DEPRECATED__H
+// #ifndef _AUDIOSTREAMER_DEPRECATED__H
+// #define _AUDIOSTREAMER_DEPRECATED__H
 
-#include <string>
+// #include <string>
 
-void streamAudio(std::string src);
+// void streamAudio(std::string src);
 
-#endif
+// #endif

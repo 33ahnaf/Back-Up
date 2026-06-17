@@ -9,6 +9,9 @@
 #include <alsa/asoundlib.h>
 
 #define BUFF_SIZE 1024
+#define HIGH_LIMIT 1.0f
+#define LOW_LIMIT 0.0f
+#define DELTA 0.1f
 
 typedef struct {
     uint8_t inBuf[BUFF_SIZE];
@@ -33,11 +36,17 @@ typedef struct {
     time_t previousTime;
     snd_pcm_t *pcm;
 
+    void fastForwardAudio(size_t milliseconds);
+    void rewindAudio(size_t milliseconds);
+    void progressBar(void);
+
     void load(std::string path);
     void update(void);
     void unload(void);
 } AudioStreamer;
 
 extern AudioStreamer audio;
+
+void showINFO(void);
 
 #endif

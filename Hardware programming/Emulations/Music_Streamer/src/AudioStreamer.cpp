@@ -2,9 +2,6 @@
 #include "globals.h"
 #include "MISC.h"
 
-#define HIGH_LIMIT 1.0f
-#define LOW_LIMIT 0.0f
-#define DELTA 0.1f
 #define MODULE_NAME "AudioStreamer"
 
 AudioStreamer audio;
@@ -77,70 +74,6 @@ void AudioStreamer::update(void){
     if(!app.isPlaying)
         return;
     
-    int key = GetKeyPressed();
-    while(key != 0){
-        switch(key){
-            case KEY_Q:
-                bassGain = bassGain >= HIGH_LIMIT ? HIGH_LIMIT : bassGain + DELTA; showINFO(); break;
-
-            case KEY_A:
-                bassGain = bassGain <= LOW_LIMIT ? LOW_LIMIT : bassGain - DELTA; showINFO(); break;
-
-            case KEY_W:
-                midGain = midGain >= HIGH_LIMIT ? HIGH_LIMIT : midGain + DELTA; showINFO(); break;
-
-            case KEY_S:
-                midGain = midGain <= LOW_LIMIT ? LOW_LIMIT : midGain - DELTA; showINFO(); break;
-
-            case KEY_E:
-                treGain = treGain >= HIGH_LIMIT ? HIGH_LIMIT : treGain + DELTA; showINFO(); break;
-
-            case KEY_D:
-                treGain = treGain <= LOW_LIMIT ? LOW_LIMIT : treGain - DELTA; showINFO(); break;
-
-            case KEY_R:
-                junoRate = junoRate >= HIGH_LIMIT ? HIGH_LIMIT : junoRate + 0.05f; showINFO(); break;
-
-            case KEY_F:
-                junoRate = junoRate <= LOW_LIMIT ? LOW_LIMIT : junoRate - 0.05f; showINFO(); break;
-
-            case KEY_T:
-                junoDepth = junoDepth >= 10000 ? 10000 : junoDepth + 100.0f; showINFO(); break;
-
-            case KEY_G:
-                junoDepth = junoDepth <= 0 ? 0 : junoDepth - 100.0f; showINFO(); break;
-
-            case KEY_Y:
-                junoMix = junoMix >= HIGH_LIMIT ? HIGH_LIMIT : junoMix + 0.05f; showINFO(); break;
-
-            case KEY_H:
-                junoMix = junoMix <= LOW_LIMIT ? LOW_LIMIT : junoMix - 0.05f; showINFO(); break;
-
-            case KEY_U:
-                reverbMix = reverbMix >= HIGH_LIMIT ? HIGH_LIMIT : reverbMix + 0.05f; showINFO(); break;
-
-            case KEY_J:
-                reverbMix = reverbMix <= LOW_LIMIT ? LOW_LIMIT : reverbMix - 0.05f; showINFO(); break;
-
-            case KEY_I:
-                reverbFeedback = reverbFeedback >= HIGH_LIMIT ? HIGH_LIMIT : reverbFeedback + 0.05f; showINFO(); break;
-
-            case KEY_K:
-                reverbFeedback = reverbFeedback <= LOW_LIMIT ? LOW_LIMIT : reverbFeedback - 0.05f; showINFO(); break;
-
-            case KEY_SPACE:
-                pauseAudio = !pauseAudio; printf("%s\n", pauseAudio ? "Streaming paused!" : "Resumed!"); break;
-
-            case KEY_COMMA:
-                rewindAudio(&audioFile); progressBar(&audioFile); break;
-
-            case KEY_PERIOD:
-                fastForwardAudio(&audioFile); progressBar(&audioFile); break;
-
-        }
-        key = GetKeyPressed();
-    }
-    
     if(pauseAudio){
         usleep(10000);
         return;
@@ -165,10 +98,51 @@ void AudioStreamer::update(void){
     
     currentTime = time(NULL);
     if(currentTime - previousTime >= 1 && !isLyricsAvailable){
-        progressBar(&audioFile);
+        progressBar();
         previousTime = currentTime;
     }
     
     if(isLyricsAvailable)
         lyricsFile.render(&audioFile);
+}
+
+void AudioStreamer::fastForwardAudio(size_t milliseconds){
+    if(ftell(audioFile.stream) + audioFile.sample_rate*2*(milliseconds / 1000.0) > audioFile.file_size){
+        fseek(audioFile.stream, audioFile.file_size-1, SEEK_SET);
+        // printf("\nCurrent position: %dth byte\n", ftell(audioFile->stream));
+    }else{
+        fseek(audioFile.stream, audioFile.sample_rate*2*(milliseconds / 1000.0), SEEK_CUR);
+        // printf("\nCurrent position: %dth byte\n", ftell(audioFile->stream));
+    }
+}
+
+void AudioStreamer::rewindAudio(size_t milliseconds){
+    if(ftell(audioFile.stream) - audioFile.sample_rate*2*(milliseconds / 1000.0) > 0){
+        fseek(audioFile.stream, ftell(audioFile.stream) - audioFile.sample_rate*2*(milliseconds / 1000.0), SEEK_SET);
+        // printf("\nCurrent position: %dth byte\n", ftell(audioFile->stream));
+    }else{
+        fseek(audioFile.stream, audioFile.header_size, SEEK_SET);
+        // printf("\nCurrent position: %dth byte\n", ftell(audioFile->stream));
+    }
+}
+
+void AudioStreamer::progressBar(void){
+    int progress = (int)((double)ftell(audioFile.stream) / audioFile.data_size * 100.0f);
+    int totalSeconds = audioFile.data_size / (audioFile.sample_rate*2);
+    int currentSecond = (ftell(audioFile.stream) - audioFile.header_size) / (audioFile.sample_rate*2);
+    printf("\r%3d%%", progress);
+    printf(" [");
+    for(int i = 0; i < 50; i++){
+        if(i < progress/2)
+            printf("+");
+        else
+            printf(" ");
+    }
+    printf("]\t%02d:%02d / %02d:%02d", currentSecond/60, currentSecond%60, totalSeconds/60, totalSeconds%60);
+    fflush(stdout);
+}
+
+void showINFO(void){
+    // printf("bass: %1.1f  mid: %1.1f  tre: %1.1f     lowCut: %1.3f  highCut: %1.3f     reverbMix: %1.2f  reverbFeedback: %1.2f\n", bassGain, midGain, treGain, lowCut, highCut, reverbMix, reverbFeedback);
+    printf("\nbass: %1.1f  mid: %1.1f  tre: %1.1f     junoRate: %1.2f  junoDepth: %4.1f  junoMix: %1.2f     reverbMix: %1.2f  reverbFB: %1.2f\n", bassGain, midGain, treGain, junoRate, junoDepth, junoMix, reverbMix, reverbFeedback);
 }
