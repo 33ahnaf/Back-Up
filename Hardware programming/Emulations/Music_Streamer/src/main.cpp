@@ -17,6 +17,7 @@ void AudioThread(void){
 }
 
 int main(){
+    app.display = TFT_320x240;
     RAYLIB_INIT();
     std::thread audioThread(AudioThread);
 
