@@ -5,26 +5,25 @@
 #include <dirent.h>
 #include <string.h>
 
-#define LCD_WIDTH 320
-#define LCD_HEIGHT 240
-#define LCD_FPS 20
-#define VISIBLE_ITEMS 12
-#define MAX_VISIBLE_ITEM_LENGTH 50
+#define TFT_WIDTH 320
+#define TFT_HEIGHT 240
+#define TFT_FPS 20
+#define TFT_VISIBLE_ITEMS 12
+
 #define MODULE_NAME "GUI"
 
-char visible[VISIBLE_ITEMS][MAX_VISIBLE_ITEM_LENGTH];
 Font font;
 
 MenuItem settingsMenu[] = {
-    { "Brightness", NULL, 0, NULL },
-    { "Themes", NULL, 0, NULL },
-    { "Scroll Wrapping", NULL, 0, NULL }
+    { "Brightness",         NULL, 0, NULL },
+    { "Themes",             NULL, 0, NULL },
+    { "Scroll Wrapping",    NULL, 0, NULL }
 };
 
 MenuItem mainMenu[] = {
-    { "Songs", NULL, 0, OpenSongs },
-    { "Settings", settingsMenu, sizeof(settingsMenu)/sizeof(settingsMenu[0]), NULL },
-    { "Search", NULL, 0, NULL }
+    { "Songs",      NULL, 0, OpenSongs },
+    { "Settings",   settingsMenu, sizeof(settingsMenu)/sizeof(settingsMenu[0]), NULL },
+    { "Search",     NULL, 0, NULL }
 };
 
 UIState ui = {
@@ -38,8 +37,8 @@ UIState ui = {
 SongBrowser songBrowser;
 
 void RAYLIB_INIT(void){
-    InitWindow(LCD_WIDTH, LCD_HEIGHT, "TFT Display (emulation)");
-    SetTargetFPS(LCD_FPS);
+    InitWindow(TFT_WIDTH, TFT_HEIGHT, "TFT Display (emulation)");
+    SetTargetFPS(TFT_FPS);
     font = LoadFontEx("./assets/Fonts/NotoSans-Medium.ttf", 16, 0, 0);
     SetTextureFilter(font.texture, TEXTURE_FILTER_POINT);
     SetTextureFilter(font.texture, TEXTURE_FILTER_BILINEAR);
@@ -85,14 +84,14 @@ void UIState::DrawMenu(void){
     BeginDrawing();
     ClearBackground(BLACK);
 
-    for(int i = 0; i < VISIBLE_ITEMS; i++){
+    for(int i = 0; i < TFT_VISIBLE_ITEMS; i++){
         int idx = i + scroll;
         if(idx >= itemCount) break;
         
         int y = i * 20;
 
         if(idx == selected){
-            DrawRectangle(0, y - 2, LCD_WIDTH, 20, DARKGRAY);
+            DrawRectangle(0, y - 2, TFT_WIDTH, 20, DARKGRAY);
             DrawTextEx(font, ">", (Vector2){2.0, (float)y}, 16, 1, YELLOW);
             DrawTextEx(font, currentMenu[idx].name, (Vector2){11.0, (float)y}, 16, 0.5, YELLOW);
         }else{
@@ -114,8 +113,8 @@ void UIState::HandleInput(void){
             selected = 0;
     }
 
-    if(selected >= scroll + VISIBLE_ITEMS)
-        scroll = selected - VISIBLE_ITEMS + 1;
+    if(selected >= scroll + TFT_VISIBLE_ITEMS)
+        scroll = selected - TFT_VISIBLE_ITEMS + 1;
 
     if(selected < scroll)
         scroll = selected;
@@ -163,8 +162,8 @@ void SongBrowser::HandleInput(void){
             selected = 0;
     }
 
-    if(selected >= scroll + VISIBLE_ITEMS)
-        scroll = selected - VISIBLE_ITEMS + 1;
+    if(selected >= scroll + TFT_VISIBLE_ITEMS)
+        scroll = selected - TFT_VISIBLE_ITEMS + 1;
     
     if(selected < scroll)
         scroll = selected;
@@ -184,14 +183,14 @@ void SongBrowser::DrawSongs(void){
     BeginDrawing();
     ClearBackground(BLACK);
 
-    for(int i = 0; i < VISIBLE_ITEMS; i++){
+    for(int i = 0; i < TFT_VISIBLE_ITEMS; i++){
         int idx = i + scroll;
         if(idx >= (int)songs.size()) break;
         
         int y = i * 20;
 
         if(idx == selected){
-            DrawRectangle(0, y - 2, LCD_WIDTH, 20, DARKGRAY);
+            DrawRectangle(0, y - 2, TFT_WIDTH, 20, DARKGRAY);
             DrawTextEx(font, ">", (Vector2){2, y}, 16, 1, YELLOW);
             DrawTextEx(font, songs[idx].c_str(), (Vector2){11, y}, 16, 0.5, YELLOW);
         }else{
