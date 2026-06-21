@@ -2,6 +2,7 @@
 #include "globals.h"
 #include <Arduino.h>
 #include <SD.h>
+#include <string>
 #include <stdint.h>
 #include <WiFi.h>
 #include <WebServer.h>
@@ -11,8 +12,7 @@
 WebServer server(80);
 uint8_t sdUploadBuf[UPLOAD_BUFF];
 
-
-String getWebpage(){
+std::string getWebpage(){
   return R"rawliteral(
 <!DOCTYPE html>
 <html>
@@ -403,9 +403,7 @@ void showFiles(void){
     Serial.printf("\n\n\n");
 }
 
-
-
-bool downloadFile(String path){
+bool downloadFile(std::string path){
     showFiles();
     Serial.printf("Entering WiFi Upload Mode...\n");
 
@@ -419,14 +417,14 @@ bool downloadFile(String path){
     Serial.println(IP);
 
     File uploadFile;
-    String filename;
+    std::string filename;
     uint32_t bufIndex = 0;
 
     bool exitUploadMode = false;
     bool uploadError = false;
 
     server.on("/", HTTP_GET, [](){
-        server.send(200, "text/html", getWebpage());
+        server.send(200, "text/html", getWebpage().c_str());
     });
 
     server.on("/disconnect", HTTP_GET, [&](){
@@ -446,9 +444,9 @@ bool downloadFile(String path){
         if(upload.status == UPLOAD_FILE_START){
             
             bufIndex = 0;
-            filename = path + upload.filename;
+            filename = path + upload.filename.c_str();
 
-            if(SD.exists(filename)){
+            if(SD.exists(filename.c_str())){
                 Serial.printf("CHECK OUT 450th line of WiFi_Downloader!\n");
                 // must implement a function here that will ask the user if he DOES will to delete the existing file, in the ESP32 (server-side, not in user-side)
                 pinMode(2, OUTPUT);
@@ -459,10 +457,10 @@ bool downloadFile(String path){
                     delay(300);
                     Serial.printf("CHECK OUT 450th line of WiFi_Downloader!\n");
                 }
-                SD.remove(filename);
+                SD.remove(filename.c_str());
             }
             
-            uploadFile = SD.open(filename, FILE_WRITE);
+            uploadFile = SD.open(filename.c_str(), FILE_WRITE);
             if(!uploadFile){
                 uploadError = true;
                 Serial.println("SD open failed!");
@@ -507,7 +505,7 @@ bool downloadFile(String path){
             uploadError = true;
             Serial.println("Upload aborted!");
             if(uploadFile)          uploadFile.close();
-            if(SD.exists(filename)) SD.remove(filename);
+            if(SD.exists(filename.c_str())) SD.remove(filename.c_str());
         }
     });
 

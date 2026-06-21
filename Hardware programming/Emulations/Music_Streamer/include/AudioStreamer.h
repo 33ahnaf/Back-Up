@@ -40,7 +40,7 @@ typedef struct {
     void rewindAudio(size_t milliseconds);
     void progressBar(void);
 
-    void load(std::string path);
+    void load(std::string src);
     void update(void);
     void unload(void);
 } AudioStreamer;

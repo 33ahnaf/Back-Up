@@ -14,14 +14,14 @@ typedef struct MenuItem {
     void (*action)();
 } MenuItem;
 
-typedef struct{
+typedef struct {
     MenuItem *menu;
     int count;
     int selected;
     int scroll;
 } MenuState;
 
-typedef struct{
+typedef struct {
     MenuItem *currentMenu;
     int itemCount;
 
@@ -37,7 +37,7 @@ typedef struct{
     void DrawMenu   (void);
 } UIState;
 
-typedef struct{
+typedef struct {
     std::vector<std::string> songs;
     
     int selected = 0;

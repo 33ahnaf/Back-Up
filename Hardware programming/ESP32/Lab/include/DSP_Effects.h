@@ -1,11 +1,7 @@
-// #pragma once
 #ifndef _DSP_EFFECTS__H
 #define _DSP_EFFECTS__H
 
 #include <stdint.h>
-
-#define REVERB_DELAY 250 // 250ms
-#define JUNO_DELAY 50 // 50ms
 
 typedef struct {
     float *buffer;

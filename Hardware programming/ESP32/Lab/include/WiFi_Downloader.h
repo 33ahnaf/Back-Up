@@ -1,9 +1,8 @@
-#pragma once
 #ifndef _DOWNLOAD_OVER_WiFi__H
 #define _DOWNLOAD_OVER_WiFi__H
 
-#include <Arduino.h>
+#include <string>
 
-bool downloadFile(String path);
+bool downloadFile(std::string path);
 
 #endif

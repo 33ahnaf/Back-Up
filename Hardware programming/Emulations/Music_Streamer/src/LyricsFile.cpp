@@ -20,7 +20,7 @@ uint32_t parseTimeToMS(std::string timeTag){
 bool LyricsFile::load(std::string path){
     stream = fopen(path.c_str(), "r");
     if(!stream){
-        printf("Error: Cannot open the file containing lyrics! [%s]\n", MODULE_NAME);
+        printf("INFO: Cannot open the file containing lyrics! [%s]\n", MODULE_NAME);
         return false;
     }
 

@@ -3,18 +3,18 @@
 
 #include <string>
 
-enum Screen{
+enum Screen {
     SCREEN_MENU,
     SCREEN_SONG_BROWSER,
     SCREEN_AUDIO_PLAYER
 };
 
-enum DisplayType{
+enum DisplayType {
     TFT_320x240,
     LCD_20x4
 };
 
-typedef struct{
+typedef struct {
     Screen currentScreen = SCREEN_MENU;
     DisplayType display;
 

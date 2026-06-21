@@ -1,14 +1,18 @@
 #include "LyricsFile.h"
 #include "globals.h"
+#include <Arduino.h>
+#include <string>
 #include <LiquidCrystal_I2C.h>
 
-uint32_t parseTimeToMS(string timeTag){
+#define MODULE_NAME "LyricsFile"
+
+uint32_t parseTimeToMS(std::string timeTag){
     int min = std::stoi(timeTag.substr(0, 2));
     int sec = std::stoi(timeTag.substr(3, 5));
     int frac = 0;
 
     if(timeTag.length() > 6){
-        string f = timeTag.substr(6);
+        std::string f = timeTag.substr(6);
         if(f.length() == 2) frac = std::stoi(f) * 10;
         else frac = std::stoi(f);
     }
@@ -16,10 +20,10 @@ uint32_t parseTimeToMS(string timeTag){
     return min * 60000 + sec * 1000 + frac;
 }
 
-bool LyricsFile::load(string path){
+bool LyricsFile::load(std::string path){
     stream = SD.open(path.c_str(), "r");
     if(!stream){
-        printf("Cannot open the file containing lyrics!\n");
+        Serial.printf("INFO: Cannot open the file containing lyrics! [%s]\n", MODULE_NAME);
         return 0;
     }
 
@@ -33,14 +37,14 @@ bool LyricsFile::load(string path){
         buffer[len] = '\0';
         if(len > 0 && buffer[len - 1] == '\r')
             buffer[len - 1] = '\0';
-        string line = buffer;
+        std::string line = buffer;
         if(line[0] != '[')              continue;
         int closeIdx = line.find(']');
-        if(closeIdx == string::npos)    continue;
-        string timeTag = line.substr(1, closeIdx - 1);
+        if(closeIdx == std::string::npos)    continue;
+        std::string timeTag = line.substr(1, closeIdx - 1);
         if(timeTag[0] < '0' || timeTag[0] > '9')
             continue;
-        string text = line.substr(closeIdx + 1);
+        std::string text = line.substr(closeIdx + 1);
 
         LyricsLine l;
         l.time_ms = parseTimeToMS(timeTag);

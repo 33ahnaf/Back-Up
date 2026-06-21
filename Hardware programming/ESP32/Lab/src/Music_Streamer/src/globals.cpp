@@ -1,17 +1,23 @@
 #include "globals.h"
+#include <string>
 #include <LiquidCrystal_I2C.h>
 
+AppState app;
 LiquidCrystal_I2C lcd(0x27, 20, 4);
+
+std::string MUSICS_DIRECTORY = "/SigmaDelta/Musics";
+std::string LYRICS_DIRECTORY = "/SigmaDelta/Lyrics";
 
 const char *ssid = "Music Streamer";
 const char *password = "12345678";
 
 float bassGain = 100.0f / 100.0f;
-float midGain = 10.0f / 100.0f;
+float midGain = 100.0f / 100.0f;
 float treGain = 100.0f / 100.0f;
 
-float reverbMix = 0.2f; // wet amount
-float reverbFeedback = 0.4f;
-float junoRate = 0.05f;
-float junoDepth = 800.0f;
-float junoMix = 0.5f;
+float reverbMix = 0.0f; // wet amount
+float reverbFeedback = 0.0f;
+
+float junoRate = 0.00f;
+float junoDepth = 000.0f;
+float junoMix = 0.00f;

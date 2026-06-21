@@ -1,9 +1,8 @@
-// #pragma once
 #ifndef _AUDIOFILE__H
 #define _AUDIOFILE__H
 
-#include <stdint.h>
 #include <SD.h>
+#include <stdint.h>
 
 typedef struct {
     // char path[MAX_FILENAME_SIZE];   /*  Path to the file. */

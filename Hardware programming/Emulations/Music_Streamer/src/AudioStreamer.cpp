@@ -1,6 +1,7 @@
 #include "AudioStreamer.h"
 #include "globals.h"
 #include "MISC.h"
+#include <cstdio>
 
 #define MODULE_NAME "AudioStreamer"
 
@@ -18,8 +19,8 @@ void AudioStreamer::load(std::string src){
     // printf("\n\n%s\n\n", audioPath.c_str());
     // printf("\n\n%s\n\n", lyricsPath.c_str());
 
-    isLyricsAvailable = lyricsFile.load(lyricsPath);
     audioFile.stream = fopen(audioPath.c_str(), "rb");
+    isLyricsAvailable = lyricsFile.load(lyricsPath);
 
     if(!audioFile.stream){
         printf("Error: Cannot open source file! [%s]\n", MODULE_NAME);
@@ -51,11 +52,11 @@ void AudioStreamer::load(std::string src){
 }
 
 void AudioStreamer::unload(void){
+    lyricsFile.unload();
+    fclose(audioFile.stream);
+    Reverb_Juno_release_all(&revL, &revR, &junoL, &junoR);
     snd_pcm_drain(pcm);
     snd_pcm_close(pcm);
-    fclose(audioFile.stream);
-    lyricsFile.unload();
-    Reverb_Juno_release_all(&revL, &revR, &junoL, &junoR);
     printf("\nExiting from Streamer...\n");
     isLoaded = false;
     isUnloaded = true;
@@ -93,6 +94,7 @@ void AudioStreamer::update(void){
         outBuf[outIndex++] = inBuf[i];
         outBuf[outIndex++] = inBuf[i+1];
     }
+    
     if(snd_pcm_writei(pcm, outBuf, outIndex / 2) == -EPIPE)
         snd_pcm_prepare(pcm);
     
@@ -134,9 +136,9 @@ void AudioStreamer::progressBar(void){
     printf(" [");
     for(int i = 0; i < 50; i++){
         if(i < progress/2)
-            printf("+");
+            putchar('+');
         else
-            printf(" ");
+            putchar(' ');
     }
     printf("]\t%02d:%02d / %02d:%02d", currentSecond/60, currentSecond%60, totalSeconds/60, totalSeconds%60);
     fflush(stdout);
