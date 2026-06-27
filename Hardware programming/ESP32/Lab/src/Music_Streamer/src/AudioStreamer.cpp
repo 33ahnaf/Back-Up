@@ -57,6 +57,7 @@ void AudioStreamer::unload(void){
 }
 
 void AudioStreamer::update(void){
+
     if(app.isPlaying && !isLoaded)
         load(app.selectedSong);
 
@@ -70,42 +71,8 @@ void AudioStreamer::update(void){
         }
     }
 
-    if(Serial.available() > 0){
-        char c = (char) Serial.read();
-        switch(c){
-            case 'q': bassGain = bassGain >= HIGH_LIMIT ? HIGH_LIMIT : bassGain + DELTA; showINFO(); break;
-            case 'a': bassGain = bassGain <= LOW_LIMIT ? LOW_LIMIT : bassGain - DELTA; showINFO(); break;
-
-            case 'w': midGain = midGain >= HIGH_LIMIT ? HIGH_LIMIT : midGain + DELTA; showINFO(); break;
-            case 's': midGain = midGain <= LOW_LIMIT ? LOW_LIMIT : midGain - DELTA; showINFO(); break;
-
-            case 'e': treGain = treGain >= HIGH_LIMIT ? HIGH_LIMIT : treGain + DELTA; showINFO(); break;
-            case 'd': treGain = treGain <= LOW_LIMIT ? LOW_LIMIT : treGain - DELTA; showINFO(); break;
-
-            case 'r': junoRate = junoRate >= HIGH_LIMIT ? HIGH_LIMIT : junoRate + 0.05f; showINFO(); break;
-            case 'f': junoRate = junoRate <= LOW_LIMIT ? LOW_LIMIT : junoRate - 0.05f; showINFO(); break;
-
-            case 't': junoDepth = junoDepth >= 10000 ? 10000 : junoDepth + 100.0f; showINFO(); break;
-            case 'g': junoDepth = junoDepth <= 0 ? 0 : junoDepth - 100.0f; showINFO(); break;
-
-            case 'y': junoMix = junoMix >= HIGH_LIMIT ? HIGH_LIMIT : junoMix + 0.05f; showINFO(); break;
-            case 'h': junoMix = junoMix <= LOW_LIMIT ? LOW_LIMIT : junoMix - 0.05f; showINFO(); break;
-
-            case 'u': reverbMix = reverbMix >= HIGH_LIMIT ? HIGH_LIMIT : reverbMix + 0.05f; showINFO(); break;
-            case 'j': reverbMix = reverbMix <= LOW_LIMIT ? LOW_LIMIT : reverbMix - 0.05f; showINFO(); break;
-
-            case 'i': reverbFeedback = reverbFeedback >= HIGH_LIMIT ? HIGH_LIMIT : reverbFeedback + 0.05f; showINFO(); break;
-            case 'k': reverbFeedback = reverbFeedback <= LOW_LIMIT ? LOW_LIMIT : reverbFeedback - 0.05f; showINFO(); break;
-
-            case ' ': pauseAudio = !pauseAudio; Serial.println(pauseAudio ? "Streaming paused!" : "Resumed!"); break;
-
-            case ',': rewindAudio(5000); progressBar(); break;
-            case '.': fastForwardAudio(5000); progressBar(); break;
-        }
-    }
-
     if(pauseAudio){
-        delay(10);
+        delay(100);
         return;
     }
 
@@ -120,11 +87,11 @@ void AudioStreamer::update(void){
     for(size_t i = 0; i < bytesRead; i+=2){ // do i+1 instead of only i to make sure it's safe when bytesRead is odd (no need)
         left.applyEQ(&inBuf[i], &revL, &junoL);
         right.applyEQ(&inBuf[i+1], &revR, &junoR);
-        outBuf[outIndex++] = inBuf[i];
-        outBuf[outIndex++] = inBuf[i+1];
-        outBuf[outIndex++] = inBuf[i];
-        outBuf[outIndex++] = inBuf[i+1];
-    }i2s_write(I2S_NUM_0, outBuf, outIndex, &bytesWritten, portMAX_DELAY); // use outIndex exclusively, as the outBuf ~becomes x2 of inBuf
+        outBuf[outIndex++] = (uint16_t)inBuf[i] << 8;
+        outBuf[outIndex++] = (uint16_t)inBuf[i+1] << 8;
+    }
+    size_t bytesToSend = outIndex * sizeof(uint16_t);
+    i2s_write(I2S_NUM_0, outBuf, bytesToSend, &bytesWritten, portMAX_DELAY); // use outIndex exclusively, as the outBuf ~becomes x2 of inBuf
 
     currentTime = millis();
     if(currentTime - previousTime >= 1000 && !isLyricsAvailable){
@@ -135,6 +102,7 @@ void AudioStreamer::update(void){
     if(isLyricsAvailable)
         lyricsFile.render(&audioFile);
 }
+
 
 void AudioStreamer::fastForwardAudio(size_t milliseconds){
     if(audioFile.stream.position() + audioFile.sample_rate*2*(milliseconds / 1000.0) > audioFile.file_size){
@@ -173,28 +141,28 @@ void AudioStreamer::progressBar(void){
     Serial.flush();
 }
 
-void showINFO(void){
+void AudioStreamer::showINFO(void){
     Serial.printf("bass: %1.1f  mid: %1.1f  tre: %1.1f     junoRate: %1.2f  junoDepth: %4.1f  junoMix: %1.2f     reverbMix: %1.2f  reverbFB: %1.2f\n", bassGain, midGain, treGain, junoRate, junoDepth, junoMix, reverbMix, reverbFeedback);
 }
 
-void dacLow(void){
+void AudioStreamer::dacLow(void){
     pinMode(25, OUTPUT);
     pinMode(26, OUTPUT);
     digitalWrite(25, LOW);
     digitalWrite(26, LOW);
 }
 
-void i2s_attach(uint32_t buffer_size, uint32_t sample_rate){
+void AudioStreamer::i2s_attach(uint32_t buffer_size, uint32_t sample_rate){
     i2s_config_t cfg = {
         .mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_TX | I2S_MODE_DAC_BUILT_IN),
         .sample_rate = sample_rate,
-        .bits_per_sample = I2S_BITS_PER_SAMPLE_8BIT,
+        .bits_per_sample = I2S_BITS_PER_SAMPLE_16BIT,
         .channel_format = I2S_CHANNEL_FMT_RIGHT_LEFT,
         .communication_format = I2S_COMM_FORMAT_STAND_MSB,
         .intr_alloc_flags = 0,
         .dma_buf_count = 8,
         .dma_buf_len = (int) buffer_size,
-        .use_apll = true,
+        .use_apll = false,
         .tx_desc_auto_clear = true,
         .fixed_mclk = 0
     };
@@ -203,7 +171,7 @@ void i2s_attach(uint32_t buffer_size, uint32_t sample_rate){
     i2s_zero_dma_buffer(I2S_NUM_0);
 }
 
-void i2s_detach(void){
+void AudioStreamer::i2s_detach(void){
     i2s_driver_uninstall(I2S_NUM_0);
 }
 

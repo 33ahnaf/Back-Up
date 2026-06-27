@@ -33,7 +33,7 @@ typedef struct {
     void Enter      (void);
     void Back       (void);
     void DrawMenu   (void);
-    void HandleInput(void);
+    void HandleInput(bool up, bool down, bool enter, bool back);
 } UIState;
 
 typedef struct {
@@ -43,13 +43,14 @@ typedef struct {
     int scroll = 0;
 
     void LoadSongs  (const std::string path);
-    void HandleInput(void);
+    void HandleInput(bool up, bool down, bool enter, bool back);
     void DrawSongs  (void);
 } SongBrowser;
 
-void RAYLIB_INIT(void);
-void RAYLIB_END(void);
 void UpdateGUI(void);
 void OpenSongs(void);
+
+extern UIState ui;
+extern SongBrowser songBrowser;
 
 #endif

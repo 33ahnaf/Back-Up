@@ -13,7 +13,7 @@
 
 typedef struct {
     uint8_t inBuf[BUFF_SIZE];
-    uint8_t outBuf[BUFF_SIZE * 2];
+    uint16_t outBuf[BUFF_SIZE];
     AudioFile audioFile;
     LyricsFile lyricsFile;
     EQState left  = {0};
@@ -34,20 +34,22 @@ typedef struct {
     time_t currentTime;
     time_t previousTime;
 
-    void fastForwardAudio(size_t milliseconds);
-    void rewindAudio(size_t milliseconds);
-    void progressBar(void);
+    void dacLow     (void);
+    void showINFO   (void);
+    void i2s_attach (uint32_t buffer_size, uint32_t sample_rate);
+    void i2s_detach (void);
 
-    void load(std::string src);
+    void fastForwardAudio (size_t milliseconds);
+    void rewindAudio      (size_t milliseconds);
+    void progressBar      (void);
+
+    void load  (std::string src);
     void update(void);
     void unload(void);
 } AudioStreamer;
 
 extern AudioStreamer audio;
 
-void dacLow(void);
-void showINFO(void);
-void i2s_attach(uint32_t buffer_size, uint32_t sample_rate);
-void i2s_detach(void);
+
 
 #endif

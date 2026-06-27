@@ -78,16 +78,13 @@ void UIState::DrawMenu(void){
     }
 }
 
-void UIState::HandleInput(void){
-    char c;
-    if(Serial.available() > 0)
-        c = (char) Serial.read();
+void UIState::HandleInput(bool up, bool down, bool enter, bool back){
     
-    if(c == 'l'){
+    if(down){
         selected++;
         if(selected >= itemCount)
             selected = itemCount - 1;
-    }else if(c == 'o'){
+    }else if(up){
         selected--;
         if(selected < 0)
             selected = 0;
@@ -99,9 +96,9 @@ void UIState::HandleInput(void){
     if(selected < scroll)
         scroll = selected;
 
-    if(c == '\'')
+    if(enter)
         Enter();
-    else if(c == ']')
+    else if(back)
         Back();
 }
 
@@ -133,18 +130,15 @@ void SongBrowser::LoadSongs(const std::string path){
     scroll = 0;
 }
 
-void SongBrowser::HandleInput(void){
-    char c;
-    if(Serial.available() > 0)
-        c = (char) Serial.read();
+void SongBrowser::HandleInput(bool up, bool down, bool enter, bool back){
     
-    if(c == 'l'){
+    if(down){
         selected++;
         if(selected >= (int)songs.size())
             selected = songs.size() - 1;
     }
 
-    if(c == 'o'){
+    if(up){
         selected--;
         if(selected < 0)
             selected = 0;
@@ -156,13 +150,13 @@ void SongBrowser::HandleInput(void){
     if(selected < scroll)
         scroll = selected;
     
-    if(c == '\''){
+    if(enter){
         app.selectedSong = songs[selected];
         app.currentScreen = SCREEN_AUDIO_PLAYER;
         app.isPlaying = true;
     }
 
-    if(c == ']'){
+    if(back){
         app.currentScreen = SCREEN_MENU;
     }
 }
@@ -187,26 +181,23 @@ void SongBrowser::DrawSongs(void){
 void UpdateGUI(void){
     switch(app.currentScreen){
         case SCREEN_MENU:
-            ui.HandleInput();
+            // ui.HandleInput();  not used/deprecated
             ui.DrawMenu();
             break;
         case SCREEN_SONG_BROWSER:
-            songBrowser.HandleInput();
+            // songBrowser.HandleInput();  not used/deprecated
             songBrowser.DrawSongs();
             break;
         case SCREEN_AUDIO_PLAYER:
-            char c;
-            if(Serial.available() > 0)
-                c = (char) Serial.read();
-            
-            if(c == ']'){
-                app.currentScreen = SCREEN_SONG_BROWSER;
-                app.isPlaying = false;
-            }
+            // not used/deprecated
+            // if(c == ']'){
+            //     app.currentScreen = SCREEN_SONG_BROWSER;
+            //     app.isPlaying = false;
+            // }
             lcd.clear();
-            lcd.setCursor(1, 5);
+            lcd.setCursor(5, 1);
             lcd.print("NOW PLAYING");
-            lcd.setCursor(2, 0);
+            lcd.setCursor(0, 2);
             lcd.print(app.selectedSong.c_str());
             break;
     }
