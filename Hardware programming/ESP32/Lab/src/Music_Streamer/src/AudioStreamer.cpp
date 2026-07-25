@@ -29,7 +29,6 @@ void AudioStreamer::load(std::string src){
 
     if(!audioFile.stream){
         Serial.printf("Error: Cannot open source file! [%s]\n", MODULE_NAME);
-        dacLow();
         app.isPlaying = false;
         return;
     }
@@ -49,7 +48,6 @@ void AudioStreamer::unload(void){
     i2s_detach();
     lyricsFile.unload();
     audioFile.stream.close();
-    dacLow();
     printf("\nExiting from Streamer...\n");
     isLoaded = false;
     isUnloaded = true;

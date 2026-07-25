@@ -43,14 +43,20 @@ typedef struct {
     int scroll = 0;
 
     void LoadSongs  (const std::string path);
-    void HandleInput(bool up, bool down, bool enter, bool back);
     void DrawSongs  (void);
+    void HandleInput(bool up, bool down, bool enter, bool back);
 } SongBrowser;
+
+typedef struct {
+    void DrawPlayer(void);
+    void HandleInput(bool back);
+} AudioPlayer;
 
 void UpdateGUI(void);
 void OpenSongs(void);
 
 extern UIState ui;
 extern SongBrowser songBrowser;
+extern AudioPlayer audioPlayer;
 
 #endif

@@ -60,9 +60,7 @@ void HandleInputs(void){
                 switch(app.currentScreen){
                     case SCREEN_SONG_BROWSER: songBrowser.HandleInput(0, 0, 0, 1); break;
                     case SCREEN_MENU        : ui.HandleInput(0, 0, 0, 1);          break;
-                    case SCREEN_AUDIO_PLAYER:
-                        app.currentScreen = SCREEN_SONG_BROWSER;
-                        app.isPlaying = false;
+                    case SCREEN_AUDIO_PLAYER: audioPlayer.HandleInput(1);          break;
                 } break;
         }
     }

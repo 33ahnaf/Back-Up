@@ -47,5 +47,6 @@ void loop(){
     UpdateGUI();
     HandleInputs();
     delay(10);
+    lcd.backlight();
     // xTask_printHighWaterMark(xTaskHandle_AudioStream, 1000, xTask_AUDIO_STREAMER_STACK_SIZE_BYTES);
 }

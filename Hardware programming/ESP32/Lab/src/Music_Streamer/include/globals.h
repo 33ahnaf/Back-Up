@@ -19,15 +19,21 @@ typedef struct {
 } AppState;
 
 
+typedef struct {
+    std::string rootPasswd;
+    std::string WiFi_Passwd;
+    std::string WiFi_SSID;
+    bool scroll_wrapping;
+    uint8_t brightness;
+} Settings;
 
+
+extern Settings settings;
 extern AppState app;
 extern LiquidCrystal_I2C lcd;
 
 extern std::string MUSICS_DIRECTORY;
 extern std::string LYRICS_DIRECTORY;
-
-extern const char *ssid;
-extern const char *password;
 
 extern float bassGain;
 extern float midGain;

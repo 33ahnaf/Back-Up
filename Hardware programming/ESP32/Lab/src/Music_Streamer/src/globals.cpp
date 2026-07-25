@@ -3,13 +3,11 @@
 #include <LiquidCrystal_I2C.h>
 
 AppState app;
+Settings settings;
 LiquidCrystal_I2C lcd(0x27, 20, 4);
 
 std::string MUSICS_DIRECTORY = "/SigmaDelta/Musics";
 std::string LYRICS_DIRECTORY = "/SigmaDelta/Lyrics";
-
-const char *ssid = "Music Streamer";
-const char *password = "12345678";
 
 float bassGain = 100.0f / 100.0f;
 float midGain = 100.0f / 100.0f;

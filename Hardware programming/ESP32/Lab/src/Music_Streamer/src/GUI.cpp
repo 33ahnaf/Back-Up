@@ -8,6 +8,8 @@
 
 #define MODULE_NAME "GUI"
 
+bool dirty = true;
+
 MenuItem settingsMenu[] = {
     { "Brightness",         NULL, 0, NULL },
     { "Themes",             NULL, 0, NULL },
@@ -16,19 +18,20 @@ MenuItem settingsMenu[] = {
 
 MenuItem mainMenu[] = {
     { "Songs",      NULL, 0, OpenSongs },
-    { "Settings",   settingsMenu, sizeof(settingsMenu)/sizeof(settingsMenu[0]), NULL },
+    { "Settings",   settingsMenu, sizeof(settingsMenu) / sizeof(settingsMenu[0]), NULL },
     { "Search",     NULL, 0, NULL }
 };
 
 UIState ui = {
     .currentMenu = mainMenu,
-    .itemCount = sizeof(mainMenu)/sizeof(mainMenu[0]),
+    .itemCount = sizeof(mainMenu) / sizeof(mainMenu[0]),
     .selected = 0,
     .scroll = 0,
-    .parentIndex = 0
+    .parentIndex = 0,
 };
 
 SongBrowser songBrowser;
+AudioPlayer audioPlayer;
 
 
 void UIState::Enter(void){
@@ -82,10 +85,12 @@ void UIState::HandleInput(bool up, bool down, bool enter, bool back){
     
     if(down){
         selected++;
+        dirty = true;
         if(selected >= itemCount)
             selected = itemCount - 1;
     }else if(up){
         selected--;
+        dirty = true;
         if(selected < 0)
             selected = 0;
     }
@@ -96,10 +101,11 @@ void UIState::HandleInput(bool up, bool down, bool enter, bool back){
     if(selected < scroll)
         scroll = selected;
 
-    if(enter)
-        Enter();
-    else if(back)
-        Back();
+    if(enter){
+        dirty = true; Enter();
+    }else if(back){
+        dirty = true; Back();
+    }
 }
 
 void OpenSongs(void){
@@ -134,12 +140,14 @@ void SongBrowser::HandleInput(bool up, bool down, bool enter, bool back){
     
     if(down){
         selected++;
+        dirty = true;
         if(selected >= (int)songs.size())
             selected = songs.size() - 1;
     }
 
     if(up){
         selected--;
+        dirty = true;
         if(selected < 0)
             selected = 0;
     }
@@ -151,12 +159,15 @@ void SongBrowser::HandleInput(bool up, bool down, bool enter, bool back){
         scroll = selected;
     
     if(enter){
+        if(songs.empty())return;
         app.selectedSong = songs[selected];
         app.currentScreen = SCREEN_AUDIO_PLAYER;
         app.isPlaying = true;
+        dirty = true;
     }
 
     if(back){
+        dirty = true;
         app.currentScreen = SCREEN_MENU;
     }
 }
@@ -177,28 +188,39 @@ void SongBrowser::DrawSongs(void){
     }
 }
 
+void AudioPlayer::DrawPlayer(void){
+    lcd.clear();
+    lcd.setCursor(5, 1);
+    lcd.print("NOW PLAYING");
+    lcd.setCursor(0, 2);
+    lcd.print(app.selectedSong.c_str());
+}
+
+void AudioPlayer::HandleInput(bool back){
+    app.currentScreen = SCREEN_SONG_BROWSER;
+    app.isPlaying = false;
+    dirty = true;
+}
+
 
 void UpdateGUI(void){
-    switch(app.currentScreen){
-        case SCREEN_MENU:
-            // ui.HandleInput();  not used/deprecated
-            ui.DrawMenu();
-            break;
-        case SCREEN_SONG_BROWSER:
-            // songBrowser.HandleInput();  not used/deprecated
-            songBrowser.DrawSongs();
-            break;
-        case SCREEN_AUDIO_PLAYER:
-            // not used/deprecated
-            // if(c == ']'){
-            //     app.currentScreen = SCREEN_SONG_BROWSER;
-            //     app.isPlaying = false;
-            // }
-            lcd.clear();
-            lcd.setCursor(5, 1);
-            lcd.print("NOW PLAYING");
-            lcd.setCursor(0, 2);
-            lcd.print(app.selectedSong.c_str());
-            break;
+    if(dirty){
+
+        switch(app.currentScreen){
+
+            case SCREEN_MENU:
+                ui.DrawMenu();
+                break;
+        
+            case SCREEN_SONG_BROWSER:
+                songBrowser.DrawSongs();
+                break;
+        
+            case SCREEN_AUDIO_PLAYER:
+                audioPlayer.DrawPlayer();
+                break;
+        }
+
+        dirty = false;
     }
 }

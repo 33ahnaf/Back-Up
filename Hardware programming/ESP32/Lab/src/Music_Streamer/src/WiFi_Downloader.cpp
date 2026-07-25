@@ -408,7 +408,7 @@ bool downloadFile(std::string path){
     Serial.printf("Entering WiFi Upload Mode...\n");
 
     WiFi.mode(WIFI_AP);
-    WiFi.softAP(ssid, password);
+    WiFi.softAP(settings.WiFi_SSID.c_str(), settings.WiFi_Passwd.c_str());
     WiFi.setSleep(false);
     WiFi.setTxPower(WIFI_POWER_19_5dBm);
 
