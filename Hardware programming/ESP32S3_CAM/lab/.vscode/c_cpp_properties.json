@@ -10,6 +10,7 @@
             "includePath": [
                 "/home/ahnaf/CODER'S PARADISE/Hardware programming/ESP32S3_CAM/lab/include",
                 "/home/ahnaf/CODER'S PARADISE/Hardware programming/ESP32S3_CAM/lab/src",
+                "/home/ahnaf/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
                 "/home/ahnaf/CODER'S PARADISE/Hardware programming/ESP32S3_CAM/lab/.pio/libdeps/default/ArduinoJson/src",
                 "/home/ahnaf/CODER'S PARADISE/Hardware programming/ESP32S3_CAM/lab/.pio/libdeps/default/AsyncTCP/src",
                 "/home/ahnaf/CODER'S PARADISE/Hardware programming/ESP32S3_CAM/lab/.pio/libdeps/default/ESP Async WebServer/src",
@@ -246,7 +247,6 @@
                 "/home/ahnaf/.platformio/packages/framework-arduinoespressif32/libraries/Update/src",
                 "/home/ahnaf/.platformio/packages/framework-arduinoespressif32/libraries/WiFiClientSecure/src",
                 "/home/ahnaf/.platformio/packages/framework-arduinoespressif32/libraries/WiFiProv/src",
-                "/home/ahnaf/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
                 ""
             ],
             "browse": {
@@ -254,6 +254,7 @@
                 "path": [
                     "/home/ahnaf/CODER'S PARADISE/Hardware programming/ESP32S3_CAM/lab/include",
                     "/home/ahnaf/CODER'S PARADISE/Hardware programming/ESP32S3_CAM/lab/src",
+                    "/home/ahnaf/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
                     "/home/ahnaf/CODER'S PARADISE/Hardware programming/ESP32S3_CAM/lab/.pio/libdeps/default/ArduinoJson/src",
                     "/home/ahnaf/CODER'S PARADISE/Hardware programming/ESP32S3_CAM/lab/.pio/libdeps/default/AsyncTCP/src",
                     "/home/ahnaf/CODER'S PARADISE/Hardware programming/ESP32S3_CAM/lab/.pio/libdeps/default/ESP Async WebServer/src",
@@ -490,7 +491,6 @@
                     "/home/ahnaf/.platformio/packages/framework-arduinoespressif32/libraries/Update/src",
                     "/home/ahnaf/.platformio/packages/framework-arduinoespressif32/libraries/WiFiClientSecure/src",
                     "/home/ahnaf/.platformio/packages/framework-arduinoespressif32/libraries/WiFiProv/src",
-                    "/home/ahnaf/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
                     ""
                 ]
             },

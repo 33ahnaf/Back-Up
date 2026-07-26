@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <unistd.h>
 
 #define PLAYER_1 'X'
@@ -16,12 +17,12 @@ char **gameGrid;
 int emptyCells;
 
 void drawGrid(void);
-int  allocateGridArray(void);
+bool allocateGridArray(void);
 void freeGridArray(void);
 void clear_screen(void);
 void Player1_turn(void);
 void Player2_turn(void);
-void checkGame(void);
+void checkGame(char target);
 
 int main(){
     printf("--------- TIC-TAC-TOE ---------\n\n");
@@ -36,9 +37,9 @@ int main(){
 
     while(emptyCells != 0){
         Player1_turn();
-        if(!emptyCells) break;
+        checkGame(PLAYER_1);
         Player2_turn();
-        if(!emptyCells) break;
+        checkGame(PLAYER_2);
     }
 
     freeGridArray();
@@ -76,7 +77,7 @@ void drawGrid(){
     }
 }
 
-int allocateGridArray(){
+bool allocateGridArray(){
     gameGrid = (char**) malloc(gridSize * sizeof(char*));
     if(gameGrid == NULL) return 1;
 
@@ -153,7 +154,41 @@ void Player2_turn(){
     }
 }
 
-void checkGame(void){
-    for(int y = 0; y < gridSize; y++)
-        for(int x = 0; x < gridSize; x++)
+bool diagonalCheck(char target){
+    for(int i = 0; i < gridSize; i++)
+        if(gameGrid[i][i] != target)
+            return false;
+    return true;
+}
+
+bool diagonalCheck2nd(char target){
+    for(int i = 0; i < gridSize; i++)
+        if(gameGrid[i][gridSize - i - 1] != target)
+            return false;
+    return true;
+}
+
+bool YsCheck(char target){
+    // bool result = true;
+    // for(int y = 0; y < gridSize; y++){
+    //     for(int x = 0; x < gridSize; x++){
+    //         if(gameGrid[y][x] == target)
+        // }
+    // }
+    return 0;
+}
+
+bool XsCheck(char target){
+    // for(int y = 0; y < gridSize; y++){
+        // for(int x = 0; x < gridSize; x++){
+
+        // }
+    // }
+    return 0;
+}
+
+void checkGame(char target){
+    // if(diagonalCheck(target) || diagonalCheck2nd(target) || XsCheck(target) || YsCheck(target))
+    //     return true;
+    // return false;
 }
