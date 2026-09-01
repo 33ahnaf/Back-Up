@@ -20,11 +20,15 @@ void loop(){
   // display.setCursor(100, 100);
   // display.print("I LOVE YOU Afrinaaa...");
   // delay(1000);
-  for(int i = 3; i <= 33; i++){
-    display.clear();
-    display.setCursor(100, 100);
-    display.print("Count: ");
-    display.print(i);
-    delay(250);
-  }
+  // for(int i = 3; i <= 33; i++){
+  //   display.clear();
+  //   display.setCursor(100, 100);
+  //   display.print("Count: ");
+  //   display.print(i);
+  //   delay(250);
+  // }
+  display.clear();
+  display.setCursor(100, 100);
+  display.print("Player");
+  delay(1000);
 }

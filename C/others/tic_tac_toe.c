@@ -22,7 +22,10 @@ void freeGridArray(void);
 void clear_screen(void);
 void Player1_turn(void);
 void Player2_turn(void);
-void checkGame(char target);
+bool checkGame(char target);
+bool showWin(char player);
+bool showDraw(void);
+void emptyGrid(void);
 
 int main(){
     printf("--------- TIC-TAC-TOE ---------\n\n");
@@ -30,16 +33,31 @@ int main(){
     scanf("%d", &gridSize);
     emptyCells = gridSize*gridSize;
     if(allocateGridArray()) return 1;
-    
-    for(int y = 0; y < gridSize; y++)
-        for(int x = 0; x < gridSize; x++)
-            gameGrid[y][x] = ' ';
+
+    emptyGrid();
 
     while(emptyCells != 0){
         Player1_turn();
-        checkGame(PLAYER_1);
+        if(checkGame(PLAYER_1)){
+            if(showWin(PLAYER_1))
+                continue;
+            break;
+        }else if(emptyCells <= 0){
+            if(showDraw())
+                continue;
+            break;
+        }
+
         Player2_turn();
-        checkGame(PLAYER_2);
+        if(checkGame(PLAYER_2)){
+            if(showWin(PLAYER_2))
+                continue;
+            break;
+        }else if(emptyCells <= 0){
+            if(showDraw())
+                continue;
+            break;
+        }
     }
 
     freeGridArray();
@@ -49,7 +67,7 @@ int main(){
 
 
 
-void drawGrid(){
+void drawGrid(void){
     // draw the grid
     for(int y = 0; y < gridSize; y++){
 
@@ -77,7 +95,7 @@ void drawGrid(){
     }
 }
 
-bool allocateGridArray(){
+bool allocateGridArray(void){
     gameGrid = (char**) malloc(gridSize * sizeof(char*));
     if(gameGrid == NULL) return 1;
 
@@ -89,27 +107,34 @@ bool allocateGridArray(){
     return 0;
 }
 
-void freeGridArray(){
+void emptyGrid(void){
+    for(int y = 0; y < gridSize; y++)
+        for(int x = 0; x < gridSize; x++)
+            gameGrid[y][x] = ' ';
+}
+
+void freeGridArray(void){
     for(int y = 0; y < gridSize; y++)
         free(gameGrid[y]);
     free(gameGrid);
 }
 
-void clear_screen(){
+void clear_screen(void){
     // \e[1;1H moves the cursor to row 1, column 1
     // \e[2J clears the entire visible screen
     printf("\e[1;1H\e[2J");
     // Optional: Use \e[1;1H\e[3J if you want to clear the scrollback buffer too
 }
 
-void Player1_turn(){
+void Player1_turn(void){
     int x, y;
     clear_screen();
     drawGrid();
     printf("\n");
     printf("---- %c's turn ----\n", PLAYER_1);
     printf("Enter the position: ");
-    scanf("%d %d", &y, &x);
+    scanf("%d %d", &x, &y);
+    x--; y--; // because player counts from 1
     if((x > gridSize - 1 || x < 0) || (y > gridSize - 1 || y < 0)){
         clear_screen();
         printf("\n\n\t\tOut of bound!\n");
@@ -128,14 +153,15 @@ void Player1_turn(){
     }
 }
 
-void Player2_turn(){
+void Player2_turn(void){
     int x, y;
     clear_screen();
     drawGrid();
     printf("\n");
     printf("---- %c's turn ----\n", PLAYER_2);
     printf("Enter the position: ");
-    scanf("%d %d", &y, &x);
+    scanf("%d %d", &x, &y);
+    x--; y--; // because player counts from 1
     if((x > gridSize - 1 || x < 0) || (y > gridSize - 1 || y < 0)){
         clear_screen();
         printf("\n\n\t\tOut of bound!\n");
@@ -168,27 +194,67 @@ bool diagonalCheck2nd(char target){
     return true;
 }
 
-bool YsCheck(char target){
-    // bool result = true;
-    // for(int y = 0; y < gridSize; y++){
-    //     for(int x = 0; x < gridSize; x++){
-    //         if(gameGrid[y][x] == target)
-        // }
-    // }
-    return 0;
+bool YCheck(char target, int y){
+    for(int x = 0; x < gridSize; x++)
+        if(gameGrid[y][x] != target)
+            return false;
+    return true;
 }
 
-bool XsCheck(char target){
-    // for(int y = 0; y < gridSize; y++){
-        // for(int x = 0; x < gridSize; x++){
-
-        // }
-    // }
-    return 0;
+bool XCheck(char target, int x){
+    for(int y = 0; y < gridSize; y++)
+        if(gameGrid[y][x] != target)
+            return false;
+    return true;
 }
 
-void checkGame(char target){
-    // if(diagonalCheck(target) || diagonalCheck2nd(target) || XsCheck(target) || YsCheck(target))
-    //     return true;
-    // return false;
+bool checkGame(char target){
+    if(diagonalCheck(target) || diagonalCheck2nd(target))
+        return true;
+    else
+        for(int i = 0; i < gridSize; i++)
+            if(XCheck(target, i) || YCheck(target, i))
+                return true;
+    return false;
+}
+
+bool showWin(char player){
+    char userinput;
+    sleep(1);
+    clear_screen();
+    printf("\n\n\t\t--- END OF GAME ---\n");
+    printf("\t\t   PLAYER %c WON!\n", player);
+    printf("\t\tPlay again? [y/n]:");
+    scanf("%c", &userinput);
+    if(userinput == 'y' || userinput == 'Y'){
+        emptyGrid();
+        emptyCells = gridSize*gridSize;
+        return true;
+    }else if(userinput == 'n' || userinput == 'N'){
+        clear_screen();
+        printf("\n\n\t\t Bye!!\n");
+        sleep(1);
+        return false;
+    }else
+        return showWin(player);
+}
+bool showDraw(void){
+    char userinput;
+    sleep(1);
+    clear_screen();
+    printf("\n\n\t\t--- END OF GAME ---\n");
+    printf("\t\t It's a tie!\n");
+    printf("\t\tPlay again? [y/n]:");
+    scanf("%c", &userinput);
+    if(userinput == 'y' || userinput == 'Y'){
+        emptyGrid();
+        emptyCells = gridSize*gridSize;
+        return true;
+    }else if(userinput == 'n' || userinput == 'N'){
+        clear_screen();
+        printf("\n\n\t\t Bye!!\n");
+        sleep(1);
+        return false;
+    }else
+        return showDraw();
 }

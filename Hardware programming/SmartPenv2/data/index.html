@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>SmartPen</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">&#9679;</span>
+      <span class="brand-name">SMARTPEN</span>
+      <span class="brand-sub">IMU TRACE MONITOR</span>
+    </div>
+
+    <div class="status-cluster">
+      <div class="stat" id="stat-conn">
+        <span class="stat-label">LINK</span>
+        <span class="stat-value" id="conn-value">CONNECTING</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">FPS</span>
+        <span class="stat-value" id="fps-value">--</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">LATENCY</span>
+        <span class="stat-value" id="latency-value">-- ms</span>
+      </div>
+      <div class="stat" id="stat-pen">
+        <span class="stat-label">STATE</span>
+        <span class="stat-value" id="pen-value">IDLE</span>
+      </div>
+    </div>
+
+    <button id="clear-btn" class="btn-clear">CLEAR</button>
+  </header>
+
+  <main class="stage">
+    <canvas id="pen-canvas"></canvas>
+    <div class="crosshair-readout" id="crosshair-readout">x: 0.0&nbsp;&nbsp;y: 0.0</div>
+    <div class="reconnect-banner" id="reconnect-banner">
+      Reconnecting to SmartPen&hellip;
+    </div>
+  </main>
+
+  <footer class="panel" id="debug-panel">
+    <button class="panel-toggle" id="panel-toggle">DEBUG &#9650;</button>
+    <div class="panel-body" id="panel-body">
+      <div class="graph-block">
+        <div class="graph-title">VELOCITY (X / Y) &mdash; m/s</div>
+        <canvas id="graph-velocity" class="graph-canvas"></canvas>
+      </div>
+      <div class="graph-block">
+        <div class="graph-title">POSITION TRACE (X / Y) &mdash; px</div>
+        <canvas id="graph-position" class="graph-canvas"></canvas>
+      </div>
+      <div class="readout-block">
+        <div class="readout-row"><span>Position X</span><span id="dbg-x">0.00</span></div>
+        <div class="readout-row"><span>Position Y</span><span id="dbg-y">0.00</span></div>
+        <div class="readout-row"><span>Velocity X</span><span id="dbg-vx">0.000</span></div>
+        <div class="readout-row"><span>Velocity Y</span><span id="dbg-vy">0.000</span></div>
+        <div class="readout-row"><span>Stationary</span><span id="dbg-stat">&mdash;</span></div>
+        <div class="readout-row"><span>Sample dt</span><span id="dbg-dt">&mdash;</span></div>
+      </div>
+    </div>
+  </footer>
+
+<script src="app.js"></script>
+</body>
+</html>

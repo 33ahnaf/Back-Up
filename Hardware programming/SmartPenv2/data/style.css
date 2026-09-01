@@ -1,0 +1,277 @@
+/* =============================================================================
+   SmartPen UI — visual identity
+   -----------------------------------------------------------------------------
+   Direction: a bench-instrument readout, not a "consumer app". Warm near-black
+   chassis, phosphor-amber ink trace (evokes an oscilloscope/plotter pen more
+   than a generic neon-on-black dashboard), monospace throughout because every
+   number here is a live measurement, not copy. No external fonts/CDNs — the
+   device is an offline access point, so everything must be self-contained.
+   ============================================================================= */
+
+:root {
+  --bg:          #100e0b;
+  --bg-raised:   #17140f;
+  --grid-line:   #241d14;
+  --grid-line-2: #2c2318;
+
+  --ink:         #ffa23c;   /* primary trace / active accent (phosphor amber) */
+  --ink-dim:     #b97a34;
+  --ink-glow:    rgba(255, 162, 60, 0.45);
+
+  --teal:        #6fd6c4;   /* secondary accent: link/connection state */
+  --danger:      #ff6b57;
+
+  --text:        #f1e9dd;
+  --text-dim:    #9c9184;
+  --text-faint:  #5f574a;
+
+  --mono: ui-monospace, "JetBrains Mono", "SFMono-Regular", Menlo, Consolas,
+          "Liberation Mono", monospace;
+
+  --radius: 3px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* -----------------------------------------------------------------------
+   Top bar
+   ----------------------------------------------------------------------- */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 10px 16px;
+  background: var(--bg-raised);
+  border-bottom: 1px solid var(--grid-line-2);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-right: auto;
+}
+.brand-mark {
+  color: var(--ink);
+  font-size: 10px;
+  text-shadow: 0 0 6px var(--ink-glow);
+}
+.brand-name {
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  font-size: 14px;
+}
+.brand-sub {
+  color: var(--text-faint);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+
+.status-cluster {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  min-width: 64px;
+}
+.stat-label {
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: var(--text-faint);
+}
+.stat-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+#stat-conn .stat-value { color: var(--danger); }
+#stat-conn.connected .stat-value { color: var(--teal); }
+
+#stat-pen .stat-value { color: var(--text-dim); }
+#stat-pen.writing .stat-value { color: var(--ink); text-shadow: 0 0 8px var(--ink-glow); }
+
+.btn-clear {
+  font-family: var(--mono);
+  background: transparent;
+  color: var(--text-dim);
+  border: 1px solid var(--grid-line-2);
+  border-radius: var(--radius);
+  padding: 8px 14px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.btn-clear:hover { border-color: var(--ink); color: var(--ink); }
+.btn-clear:active { transform: translateY(1px); }
+.btn-clear:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+
+/* -----------------------------------------------------------------------
+   Stage (the writing surface)
+   ----------------------------------------------------------------------- */
+.stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  background: var(--bg);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+#pen-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.crosshair-readout {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  font-size: 11px;
+  color: var(--text-faint);
+  background: rgba(16, 14, 11, 0.7);
+  padding: 4px 8px;
+  border-radius: var(--radius);
+  pointer-events: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.reconnect-banner {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-140%);
+  background: var(--bg-raised);
+  border: 1px solid var(--danger);
+  color: var(--danger);
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  transition: transform 0.25s ease;
+  pointer-events: none;
+}
+.reconnect-banner.visible {
+  transform: translateX(-50%) translateY(0);
+}
+
+/* -----------------------------------------------------------------------
+   Debug panel (collapsible drawer)
+   ----------------------------------------------------------------------- */
+.panel {
+  flex-shrink: 0;
+  background: var(--bg-raised);
+  border-top: 1px solid var(--grid-line-2);
+}
+
+.panel-toggle {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: var(--text-faint);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  padding: 6px;
+  cursor: pointer;
+}
+.panel-toggle:hover { color: var(--text-dim); }
+
+.panel-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 16px;
+  padding: 0 16px 14px 16px;
+  max-height: 220px;
+  overflow: hidden;
+  transition: max-height 0.2s ease, padding 0.2s ease, opacity 0.2s ease;
+}
+.panel.collapsed .panel-body {
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  opacity: 0;
+}
+
+.graph-block { min-width: 0; }
+.graph-title {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--text-faint);
+  margin-bottom: 4px;
+}
+.graph-canvas {
+  width: 100%;
+  height: 130px;
+  display: block;
+  background: var(--bg);
+  border: 1px solid var(--grid-line-2);
+  border-radius: var(--radius);
+}
+
+.readout-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  min-width: 150px;
+}
+.readout-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 11px;
+  color: var(--text-dim);
+}
+.readout-row span:last-child {
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* -----------------------------------------------------------------------
+   Responsive
+   ----------------------------------------------------------------------- */
+@media (max-width: 640px) {
+  .topbar { gap: 10px; padding: 8px 10px; }
+  .brand-sub { display: none; }
+  .status-cluster { gap: 10px; }
+  .stat { min-width: 52px; }
+  .panel-body {
+    grid-template-columns: 1fr;
+    max-height: 420px;
+  }
+  .graph-canvas { height: 90px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reconnect-banner, .panel-body { transition: none; }
+}
