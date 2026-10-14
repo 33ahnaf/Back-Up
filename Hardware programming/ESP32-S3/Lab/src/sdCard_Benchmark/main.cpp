@@ -1,21 +1,28 @@
-#include <SPI.h>
-#include <SD.h>
+#include <Arduino.h>
+#include <SD_MMC.h>
 
-#define SD_CS 9
+#define SD_CMD 4
+#define SD_CLK 5
+#define SD_DAT0 6
 
 void setup() {
-    uint8_t *buffer;
-    buffer = (uint8_t*) malloc(16*1024 * sizeof(uint8_t));
     Serial.begin(115200);
 
-    if (!SD.begin(SD_CS, SPI, 40000000)) {
+    SD_MMC.setPins(SD_CLK, SD_CMD, SD_DAT0);
+
+    uint8_t *buffer;
+    buffer = (uint8_t*) malloc(16*1024 * sizeof(uint8_t));
+
+    while(Serial.available() == 0)  delay(10);
+
+    if(!SD_MMC.begin("/sdcard", true, false, 40000, 5U)){
         Serial.println("SD init failed!");
         return;
     }
 
-    File file = SD.open("/150mb.webm");
+    File file = SD_MMC.open("/150mb.webm");
 
-    if (!file) {
+    if(!file){
         Serial.println("Cannot open file");
         return;
     }
@@ -25,11 +32,11 @@ void setup() {
     size_t total = 0;
     uint32_t start = millis();
 
-    while (total < fileSize) {
+    while(total < fileSize){
         size_t toRead = min((uint32_t)(16 * 1024), fileSize - total);
         int n = file.read(buffer, toRead);
 
-        if (n <= 0){
+        if(n <= 0){
             Serial.println("Read error or premature EOF");
             break;
         }
@@ -51,4 +58,4 @@ void setup() {
     free(buffer);
 }
 
-void loop() {}
+void loop(){}

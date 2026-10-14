@@ -5,12 +5,15 @@
 #define TFT_CS 10
 #define TFT_RST 8
 #define TFT_DC 18
-#define TFT_MOSI 11
-#define TFT_SCLK 12
-#define TFT_MISO 13
+#define TFT_MOSI 13
+#define TFT_SCLK 9
+#define TFT_MISO 11
 
-#define TFT_W 240
-#define TFT_H 320
+#define LGFX_DEFINATION_WIDTH  240
+#define LGFX_DEFINATION_HEIGHT 320
+#define TFT_W 320
+#define TFT_H 240
+#define TFT_ROTATION 1
 
 // -----------------------------------------------------------------------------
 // Colors
@@ -39,7 +42,7 @@ public:
 
       cfg.spi_host = SPI2_HOST;     // ESP32-S3 uses SPI2_HOST (FSPI) or SPI3_HOST (HSPI)
       cfg.spi_mode = 0;             // SPI Mode 0
-      cfg.freq_write = 80000000;    // Write clock speed (40MHz is highly stable for ILI9341)
+      cfg.freq_write = 40000000;    // Write clock speed (40MHz is highly stable for ILI9341)
       cfg.freq_read  = 16000000;    // Read clock speed
       cfg.spi_3wire = true;         // Use true if MISO is shared or not utilized
       cfg.use_lock = true;          // Protect transfers with transaction locks
@@ -62,10 +65,10 @@ public:
       cfg.pin_rst          = TFT_RST;     // Reset pin
       cfg.pin_busy         = -1;    // Not required for ILI9341
       
-      cfg.memory_width     = 240;   // Physical panel width
-      cfg.memory_height    = 320;   // Physical panel height
-      cfg.panel_width      = 240;   // Display area width
-      cfg.panel_height     = 320;   // Display area height
+      cfg.memory_width     = LGFX_DEFINATION_WIDTH;   // Physical panel width
+      cfg.memory_height    = LGFX_DEFINATION_HEIGHT;   // Physical panel height
+      cfg.panel_width      = LGFX_DEFINATION_WIDTH;   // Display area width
+      cfg.panel_height     = LGFX_DEFINATION_HEIGHT;   // Display area height
       cfg.offset_x         = 0;     // X axis shift adjustment
       cfg.offset_y         = 0;     // Y axis shift adjustment
       
@@ -777,7 +780,7 @@ void testRotation(){
     }
 
     // Return to portrait
-    tft.setRotation(2);
+    tft.setRotation(TFT_ROTATION);
 }
 
 // -----------------------------------------------------------------------------
@@ -829,7 +832,7 @@ void setup() {
 
   // Initialize the screen
   tft.init();
-  tft.setRotation(2); // Set orientation (0-3)
+  tft.setRotation(TFT_ROTATION); // Set orientation (0-3)
   
   // Quick test render
   tft.fillScreen(TFT_BLACK);
